@@ -1,0 +1,16 @@
+---
+
+- set_fact:
+    delete_realm_url: "{{delete_realm_sub_url}}/{{realmId}}"
+
+- name: "{{realmId}}      Delete realm {{delete_realm_url}}"
+  uri:
+    url: "{{delete_realm_url}}"
+    method: DELETE
+    headers:
+      Authorization: "Bearer {{ATKN}}"
+    timeout: 10
+    status_code: 204,404
+    return_content: yes
+    body_format: json
+  register: delete_realm_response

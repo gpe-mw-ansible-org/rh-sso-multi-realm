@@ -8,25 +8,27 @@
       - "realm_management_log_file = {{realm_output_dir}}/{{realm_provisioning_log_file}}"
       - "start and end realms = {{start_realm}}  {{end_realm}}"
 
-- name: Copy realm template to known path
-  template:
-    src: templates/generic-realm.json
-    dest: /tmp/generic-realm.json
-    mode: 0755
-  when: create_realms == "true"
+- set_fact:
+    retrieve_token_url: "https://sso-{{ocp_project}}.{{ocp_apps_domain}}/auth/realms/master/protocol/openid-connect/token"
+- set_fact:
+    create_realm_url: "https://sso-{{ocp_project}}.{{ocp_apps_domain}}/auth/admin/realms"
+- set_fact:
+    delete_realm_sub_url: "https://sso-{{ocp_project}}.{{ocp_apps_domain}}/auth/admin/realms"
 
-- name: Copy realm provisioning script to known path
-  template:
-    src: templates/manage_realms.sh
-    dest: /tmp/manage_realms.sh
-    mode: 0755
 
-- name: Manage realms
-  shell: "/tmp/manage_realms.sh"
 
-- name: Management of realms complete
-  debug:
-    msg: Management of realms complete.  output files available at {{realm_output_dir}}
+
+
+# 1)  Get access and refresh OAuth tokens
+- include: refreshOAuthTokens.yml
+
+
+# 2)  Create or delete configurable number of realms
+- name: "Loop through realm prep {{start_realm}} {{end_realm}}"
+  include: realmPrep.yml realmId="realm{{item}}"
+  loop: "{{ range(start_realm|int, end_realm|int + 1, 1)|list }}"
+
+
 
 
 - name: Realm Rollout Complete

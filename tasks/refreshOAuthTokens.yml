@@ -1,0 +1,50 @@
+---
+
+- block:
+  - debug:
+      msg: "  old access token = {{ATKN}}"
+      verbosity: 0
+  - name: "    keep reusing refresh token "
+    uri:
+      url: "{{retrieve_token_url}}"
+      method: POST
+      headers:
+        Content-Type: "application/x-www-form-urlencoded"
+      body: "grant_type=refresh_token&client_id={{sso_client_id}}&refresh_token={{RTKN}}"
+    register: TKN
+  - set_fact:
+      ATKN: "{{TKN.json.access_token}}"
+  - debug:
+      msg: "  new access token = {{ATKN}}"
+      verbosity: 0
+  when: RTKN is defined
+
+- block:
+  - name: "      get access and refresh tokens "
+    uri:
+      url: "{{retrieve_token_url}}"
+      method: POST
+      headers:
+        Content-Type: "application/x-www-form-urlencoded"
+      body: "username={{SSO_SITE_ADMIN_USERNAME}}&password={{SSO_SITE_ADMIN_PASSWORD}}&grant_type=password&client_id={{sso_client_id}}"
+      timeout: 10
+      status_code: 200
+      return_content: yes
+      body_format: json
+    register: TKN
+  - debug:
+      msg: "raw token= {{TKN}}"
+      verbosity: 1
+  - set_fact:
+      RTKN: "{{TKN.json.refresh_token}}"
+      verbosity: 1
+  - debug:
+      msg: "    Refresh Token = {{RTKN}}"
+      verbosity: 1
+  - set_fact:
+      ATKN: "{{TKN.json.access_token}}"
+  when: ATKN is not defined
+- debug:
+    msg: "     Access Token = {{ATKN}}"
+    verbosity: 1
+

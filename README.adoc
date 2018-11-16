@@ -42,7 +42,7 @@ The `ansible-playbook` commands listed in this section are to be executed from t
 === Environment variables
 
 The following environment variables will need to be set in the shell of your local environment.
-These environment variables will be used throughout the workload.
+These environment variables will be used throughout this role.
 
 -----
 
@@ -57,7 +57,6 @@ $ source ~/.bashrc
 
 
 # Copy-n-paste the following:
-WORKLOAD="ocp-workload-mw-rh-sso"
 SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
 SSO_SITE_ADMIN_USERNAME=master
 SSO_SITE_ADMIN_PASSWORD=master
@@ -69,7 +68,7 @@ SSO_SITE_ADMIN_PASSWORD=master
 . Install this role locally
 +
 -----
-$ ansible-galaxy install jbride.rh-sso-multi-realm
+$ ansible-galaxy install jbride.rh_sso_multi_realm
 -----
 
 . Create Playbook:
@@ -81,17 +80,16 @@ $ echo "
   gather_facts: False
   vars_files:
   roles:
-    - jbride.rh-sso-multi-realm
-" > /tmp/rh-sso-multi-realm.yml
+    - jbride.rh_sso_multi_realm
+" > /tmp/rh_sso_multi_realm.yml
 -----
 
 === Provision RH-SSO
 
-. At a terminal window, change directories to: `/path/to/ansible-agnostic-deployer/ansible`
 . Execute:
 +
 -----
-$ ansible-playbook -i localhost, -c local /tmp/rh-sso-multi-realm.yml \
+$ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"ocp_user_needs_quota=true" \
                     -e"ACTION=create" \
                     -e"SSO_SITE_ADMIN_USERNAME=$SSO_SITE_ADMIN_USERNAME" \
@@ -105,6 +103,18 @@ $ ansible-playbook -i localhost, -c local /tmp/rh-sso-multi-realm.yml \
 +
 -----
 $ echo '' | openssl s_client -connect `oc get route sso -n $rhsso_project --template "{{.spec.host}}"`:443 | more
+-----
++
+Assuming your OCP cluster was provisioned using a wildcard certificate signed by the LetsEncrypt Certificate Authority, the response should include the following :
++
+-----
+
+...
+subject=CN = master.3295.openshift.opentlc.com
+
+issuer=C = US, O = Let's Encrypt, CN = Let's Encrypt Authority X3
+...
+
 -----
 
 . Set an environment variable that references the URL of the newly provisioned RH-SSO:
@@ -146,9 +156,7 @@ smtp_userid=
 smtp_passwd=
 
 ####     Create Realms
-$ ansible-playbook -i localhost, -c local ./configs/ocp-workloads/ocp-workload.yml \
-                    -e"ANSIBLE_REPO_PATH=`pwd`" \
-                    -e"ocp_workload=${WORKLOAD}" \
+$ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"ACTION=realm_mgmt" \
                     -e"start_realm=$START_REALM" \
                     -e"end_realm=$END_REALM" \
@@ -162,8 +170,7 @@ $ ansible-playbook -i localhost, -c local ./configs/ocp-workloads/ocp-workload.y
                     -e"create_realms=true"
 
 ####    Delete Realms
-$ ansible-playbook -i localhost, -c local ./configs/ocp-workloads/ocp-workload.yml \
-                    -e"ANSIBLE_REPO_PATH=`pwd`" \
+$ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"ocp_workload=${WORKLOAD}" \
                     -e"ACTION=realm_mgmt" \
                     -e"start_realm=$START_REALM" \
@@ -181,9 +188,7 @@ $ ansible-playbook -i localhost, -c local ./configs/ocp-workloads/ocp-workload.y
 === Delete RH-SSO
 
 -----
-$ ansible-playbook -i localhost, -c local ./configs/ocp-workloads/ocp-workload.yml \
-                    -e"ANSIBLE_REPO_PATH=`pwd`" \
-                    -e"ocp_workload=${WORKLOAD}" \
+$ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"ACTION=remove" \
                     -e"subdomain_base=$SUBDOMAIN_BASE"
 -----

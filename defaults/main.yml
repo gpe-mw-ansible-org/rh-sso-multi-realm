@@ -35,6 +35,7 @@ shared_ns: shared-opentlc
 
 ocp_project: "rhsso-{{admin_username}}"
 
+sso_client_id: 'admin-cli'
 rhsso_template_name: sso72-x509-mysql-persistent
 SSO_SITE_ADMIN_USERNAME: master
 SSO_SITE_ADMIN_PASSWORD: 'master'
@@ -45,3 +46,4 @@ realm_output_dir: /tmp/rhsso_realms
 realm_provisioning_log_file: realm_provisioning.log
 start_realm: 1
 end_realm: 100
+realm_loop_delay: 2

@@ -1,0 +1,15 @@
+---
+
+- name: "{{realmId}}      Create realm "
+  uri:
+    url: "{{create_realm_url}}"
+    method: POST
+    headers:
+      Content-Type: "application/json;charset=UTF-8"
+      Authorization: "Bearer {{ATKN}}"
+    body: "{{realm_body}}"
+    timeout: 10
+    status_code: 201,409
+    return_content: yes
+    body_format: json
+  register: create_realm_response

@@ -1,6 +1,6 @@
 {
-  "id" : "changeme",
-  "realm" : "changeme",
+  "id" : "{{realmId}}",
+  "realm" : "{{realmId}}",
   "notBefore" : 0,
   "revokeRefreshToken" : false,
   "accessTokenLifespan" : 300,
@@ -35,14 +35,14 @@
       "scopeParamRequired" : true,
       "composite" : false,
       "clientRole" : false,
-      "containerId" : "changeme"
+      "containerId" : "{{realmId}}"
     }, {
       "name" : "uma_authorization",
       "description" : "${role_uma_authorization}",
       "scopeParamRequired" : false,
       "composite" : false,
       "clientRole" : false,
-      "containerId" : "changeme"
+      "containerId" : "{{realmId}}"
     } ],
     "client" : { }
   },
@@ -68,13 +68,13 @@
   "clients" : [ {
     "clientId" : "account",
     "name" : "${client_account}",
-    "baseUrl" : "/auth/realms/changeme/account",
+    "baseUrl" : "/auth/realms/{{realmId}}/account",
     "surrogateAuthRequired" : false,
     "enabled" : true,
     "clientAuthenticatorType" : "client-secret",
     "secret" : "8f076c02-f1e6-4315-9ed7-fbf8ba1b35b2",
     "defaultRoles" : [ "view-profile", "manage-account" ],
-    "redirectUris" : [ "/auth/realms/changeme/account/*" ],
+    "redirectUris" : [ "/auth/realms/{{realmId}}/account/*" ],
     "webOrigins" : [ ],
     "notBefore" : 0,
     "bearerOnly" : false,
@@ -494,12 +494,12 @@
   }, {
     "clientId" : "security-admin-console",
     "name" : "${client_security-admin-console}",
-    "baseUrl" : "/auth/admin/changeme/console/index.html",
+    "baseUrl" : "/auth/admin/{{realmId}}/console/index.html",
     "surrogateAuthRequired" : false,
     "enabled" : true,
     "clientAuthenticatorType" : "client-secret",
     "secret" : "01e09b01-82d6-4e33-8d48-1f80650e9425",
-    "redirectUris" : [ "/auth/admin/changeme/console/*" ],
+    "redirectUris" : [ "/auth/admin/{{realmId}}/console/*" ],
     "webOrigins" : [ ],
     "notBefore" : 0,
     "bearerOnly" : false,
@@ -623,7 +623,7 @@
     "host": "{{smtp_host}}",
     "replyTo": "rhtgpte_donotreply@redhat.com",
     "from": "opentlc-infra-admins@redhat.com",
-    "fromDisplayName": "changeme Admin",
+    "fromDisplayName": "{{realmId}} Admin",
     "ssl": "",
     "user": "{{smtp_userid}}"
   },

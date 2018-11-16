@@ -1,0 +1,74 @@
+---
+
+
+- debug:
+    msg: "ATKN = {{ATKN}}"
+    verbosity: 1
+
+
+#  ################################             Create Realm            ##################################### #
+
+# 201 response code
+#   Indicates POST was successfull
+# 401: response code
+#   Indicates authorization problem
+# 409 response code
+#   Indicates a duplicate with the following error message in RH-SSO logs
+#       Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry 'realm1' for key 'PRIMARY' 
+- block:
+    - name: "{{realmId}}      **********   REALM CREATION  **********"
+      template:
+        src: templates/generic-realm.json
+        dest: "{{realm_output_dir}}/{{realmId}}.json"
+        mode: 0755
+    - set_fact:
+         realm_body: "{{ lookup('file', '{{realm_output_dir}}/{{realmId}}.json') }}"
+    - debug:
+        msg: "realm_body = {{realm_body}}"
+        verbosity: 1
+    - include: realmCreate.yml
+    - debug:
+        msg: "{{realmId}}      create_realm_response = {{create_realm_response}}"
+  rescue:
+    - debug:
+        msg: "create_realm_response status = {{create_realm_response.status}}"
+    - include: refreshOAuthTokens.yml
+      when: create_realm_response.status == 401
+    - include: realmCreate.yml
+      when: create_realm_response.status == 401
+    - meta: end_play
+      when: create_realm_response.status != 401
+  when: create_realms|bool
+
+#  ########################################################################################################## #
+ 
+
+
+
+
+
+ 
+ 
+#  ################################             Delete Realm            ##################################### #
+- block:
+    - name: "{{realmId}}      **********   REALM DELETION  **********"
+      include: realmDelete.yml
+    - debug:
+        msg: "{{realmId}}      delete_realm_response = {{delete_realm_response}}"
+  rescue:
+    - debug:
+        msg: "delete_realm_response status = {{delete_realm_response.status}}"
+    - include: refreshOAuthTokens.yml
+      when: delete_realm_response.status == 401
+    - include: realmDelete.yml
+      when: delete_realm_response.status == 401
+    - meta: end_play
+      when: delete_realm_response.status != 401
+  when: not create_realms|bool
+#  ########################################################################################################## #
+
+
+
+
+- pause:
+    seconds: "{{realm_loop_delay}}"
