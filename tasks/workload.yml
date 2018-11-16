@@ -9,13 +9,6 @@
 - name: Make sure we go back to default project
   shell: "oc project default"
 
-- name: "Ensure the following directory exists: {{new_app_output_dir}}"
-  file:
-    path: "{{new_app_output_dir}}"
-    state: directory
-    mode: 0755
-
-
 ### RH-SSO Setup
 
 - name: Create SSO Service Account

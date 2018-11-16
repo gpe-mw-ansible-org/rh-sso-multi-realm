@@ -1,4 +1,11 @@
 ---
+
+- name: "Ensure the following directory exists: {{new_app_output_dir}}"
+  file:
+    path: "{{new_app_output_dir}}"
+    state: directory
+    mode: 0755
+
 - name: Running Pre Workload Tasks
   import_tasks: ./pre_workload.yml
   become: "{{ become_override | bool }}"
