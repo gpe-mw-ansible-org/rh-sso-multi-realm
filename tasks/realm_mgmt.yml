@@ -4,8 +4,8 @@
   debug:
     msg:
       - "create_realms: {{create_realms}}"
-      - "realm_output_dir:  {{realm_output_dir}}"
-      - "realm_management_log_file = {{realm_output_dir}}/{{realm_provisioning_log_file}}"
+      - "new_app_output_dir:  {{new_app_output_dir}}"
+      - "realm_management_log_file = {{new_app_output_dir}}/{{realm_provisioning_log_file}}"
       - "start and end realms = {{start_realm}}  {{end_realm}}"
 
 - set_fact:

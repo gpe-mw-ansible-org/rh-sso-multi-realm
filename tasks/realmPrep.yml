@@ -19,10 +19,10 @@
     - name: "{{realmId}}      **********   REALM CREATION  **********"
       template:
         src: templates/generic-realm.json
-        dest: "{{realm_output_dir}}/{{realmId}}.json"
+        dest: "{{new_app_output_dir}}/{{realmId}}.json"
         mode: 0755
     - set_fact:
-         realm_body: "{{ lookup('file', '{{realm_output_dir}}/{{realmId}}.json') }}"
+         realm_body: "{{ lookup('file', '{{new_app_output_dir}}/{{realmId}}.json') }}"
     - debug:
         msg: "realm_body = {{realm_body}}"
         verbosity: 1

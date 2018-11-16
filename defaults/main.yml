@@ -42,7 +42,7 @@ SSO_SITE_ADMIN_PASSWORD: 'master'
 SSO_HOSTNAME_HTTP: "{{ocp_project}}.{{ocp_apps_domain}}"
 SSO_HOSTNAME_HTTPS: "secure-{{ocp_project}}.{{ocp_apps_domain}}"
 
-realm_output_dir: /tmp/rhsso_realms
+new_app_output_dir: "{{ lookup('env','HOME') }}/provisioning_output/{{subdomain_base}}"
 realm_provisioning_log_file: realm_provisioning.log
 start_realm: 1
 end_realm: 100
