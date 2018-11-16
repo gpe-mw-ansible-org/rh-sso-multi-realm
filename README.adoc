@@ -9,9 +9,30 @@
 
 == Overview
 
-This role is intended to provision a persistent Red Hat sso installation..
+This role is intended to provision a persistent _Red Hat Single Sign-On_ (RH-SSO) installation on Red Hat's OpenShift Container Platform (OCP).
 
-It also allows for management (ie:  creation and deletion)  of a configurable number of SSO _realms_ in a RHT SSO installation.
+It also allows for management (ie:  creation and deletion) of a configurable number of SSO _realms_ in that RH-SSO installation.
+
+This role might be valuable in the following circumstances :
+
+. *Instructor Led Training (ILTs), Hackathons and workshops*:
++
+Given X number of students in an ILT requiring RH-SSO, provision a single central multi-realm RH-SSO where each student is assigned their own realm.
++
+The student is provided with administrative credentials to their assigned realm.
++
+This approach might be more desirable than the alternative where each student provisions their own RH-SSO.
+
+. *RH-SSO enablement*
++
+A few learning objectives might be:
+
+.. Demonstrate the provisioning of RH-SSO on OCP.
++
+In particular, the RH-SSO variant that leverages OCP's link:https://access.redhat.com/documentation/en-us/red_hat_single_sign-on/7.2/html-single/red_hat_single_sign-on_for_openshift/index#what_is_red_hat_single_sign_on[service serving x509 certificate secrets].
+
+.. Integration with an external smtp provider to send out emails and facilitate a user self-registration workflow.
+.. Invocation of the REST Admin API of RH-SSO using OAuth2 _access_ and _refresh_ tokens.
 
 === Reference
 
@@ -19,10 +40,11 @@ It also allows for management (ie:  creation and deletion)  of a configurable nu
 . link:https://access.redhat.com/documentation/en-us/red_hat_single_sign-on/7.2/html-single/red_hat_single_sign-on_for_openshift[RH-SSO for OCP]
 . link:https://docs.openshift.com/container-platform/3.10/dev_guide/secrets.html#service-serving-certificate-secrets[OCP Service Serving Certificate Secrets]
 
-== RH-SSO _Multi-Realm_ Deployment
 
-=== Pre-reqs
+=== Assumptions and Pre-reqs
 . This ansible workload assumes the existence of a remote OCP 3.10 environment with a minimum of 5GB RAM.
+
+. This ansible workload assumes that your pre-existing OCP cluster is configured with a certificate signed by a legitimate Certificate Authority (such as LetsEncrypt).
 
 . The commands provided in this section make use of an `oc` client running on your local machine.
 Ensure that this `oc` client is on the $PATH of your local environment and its version aligns with that of your OCP environment.
@@ -33,22 +55,18 @@ Ensure that this `oc` client is on the $PATH of your local environment and its v
 
 . Ensure that ansible is installed on your local machine.
 
-. Ensure that this git project has been cloned to your local machine.
-+
-The `ansible-playbook` commands listed in this section are to be executed from the following path: `/path/to/ansible-agnostic-deployer/ansible` .
 
-
+== RH-SSO Deployment
 
 === Environment variables
 
-The following environment variables will need to be set in the shell of your local environment.
+The following environment variables will need to be set in the shell of your local environment from where you will execute ansible.
 These environment variables will be used throughout this role.
 
 -----
 
 # Update the following:
 $ echo "export OCP_PROJECT_PREFIX=<your initials>" >> ~/.bashrc          # Used later in lab when creating an OCP project
-$ echo "export pleaseHackMePasswd=<UPDATE ME !!! >" >> ~/.bashrc         # Used later in lab when creating a JDK Truststore
 $ echo "export ocp_admin_username=sso0" >> ~/.bashrc
 $ echo "export rhsso_project=rhsso-\$ocp_admin_username" >> ~/.bashrc
 
@@ -599,4 +617,3 @@ cd /opt/eap/bin/
 -----
 ./jboss-cli.sh --connect ':reload'
 -----
-
