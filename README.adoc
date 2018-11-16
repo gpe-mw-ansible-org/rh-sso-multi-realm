@@ -67,8 +67,8 @@ These environment variables will be used throughout this role.
 
 # Update the following:
 $ echo "export OCP_PROJECT_PREFIX=<your initials>" >> ~/.bashrc          # Used later in lab when creating an OCP project
-$ echo "export ocp_admin_username=sso0" >> ~/.bashrc
-$ echo "export rhsso_project=rhsso-\$ocp_admin_username" >> ~/.bashrc
+$ echo "export ocp_sso_admin_username=sso0" >> ~/.bashrc
+$ echo "export rhsso_project=rhsso-\$ocp_sso_admin_username" >> ~/.bashrc
 
 # Execute the following:
 $ source ~/.bashrc
@@ -112,7 +112,7 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"ACTION=create" \
                     -e"SSO_SITE_ADMIN_USERNAME=$SSO_SITE_ADMIN_USERNAME" \
                     -e"SSO_SITE_ADMIN_PASSWORD=$SSO_SITE_ADMIN_PASSWORD" \
-                    -e"admin_username=$ocp_admin_username" \
+                    -e"admin_username=$ocp_sso_admin_username" \
                     -e"subdomain_base=$SUBDOMAIN_BASE"
 
 -----
@@ -138,7 +138,7 @@ issuer=C = US, O = Let's Encrypt, CN = Let's Encrypt Authority X3
 . Set an environment variable that references the URL of the newly provisioned RH-SSO:
 +
 -----
-echo "export rhsso_url=https://`oc get route sso -n rhsso-$ocp_admin_username --template "{{.spec.host}}" -n rhsso-$ocp_admin_username`" >> ~/.bashrc
+echo "export rhsso_url=https://`oc get route sso -n rhsso-$ocp_sso_admin_username --template "{{.spec.host}}" -n rhsso-$ocp_sso_admin_username`" >> ~/.bashrc
 
 source ~/.bashrc
 -----
@@ -184,7 +184,7 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"smtp_userid=$smtp_userid" \
                     -e"SSO_SITE_ADMIN_USERNAME=$SSO_SITE_ADMIN_USERNAME" \
                     -e"SSO_SITE_ADMIN_PASSWORD=$SSO_SITE_ADMIN_PASSWORD" \
-                    -e"admin_username=$ocp_admin_username" \
+                    -e"admin_username=$ocp_sso_admin_username" \
                     -e"create_realms=true"
 
 ####    Delete Realms
@@ -196,7 +196,7 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"subdomain_base=$SUBDOMAIN_BASE" \
                     -e"SSO_SITE_ADMIN_USERNAME=$SSO_SITE_ADMIN_USERNAME" \
                     -e"SSO_SITE_ADMIN_PASSWORD=$SSO_SITE_ADMIN_PASSWORD" \
-                    -e"admin_username=$ocp_admin_username" \
+                    -e"admin_username=$ocp_sso_admin_username" \
                     -e"create_realms=false"
 
 -----
