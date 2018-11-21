@@ -104,6 +104,9 @@ $ echo "
 
 === Provision RH-SSO
 
+The OCP namespace for the RH-SSO multi-realm application will be owned by the following user: {{ocp_sso_admin_username}}.
+{{ocp_sso_admin_username}} will be assigned a clusterquota so as to manage limits and requests assigned to 3scale
+
 . Execute:
 +
 -----
@@ -282,6 +285,27 @@ $ realmPasswd=<change me>
 Notice the presence of 5 default SSO clients.  Each of them is configured to allow for different OAuth2 and OIDC protocols.
 +
 image::images/default_sso_clients.png[]
+
+=== Explore Clients
+
+A client, in the context of OAuth2 terminology, is an application requesting access to a protected resource on behalf of a _Resource Owner_.
+The Resource Owner is typically an end user (also known as an entity) and the protected resource might be confidential attributes from one or more _identities_ of that Resource Owner/entity.
+
+RH-SSO allows for the creation of custom _clients_.
+For the purpose of this lab however, you will use one of the default _clients_ that comes out-of-the-box with your _realm_.
+
+==== Review `realm-management`
+This is a  _bearer-only_ client that will be affiliated with a secured backend service in a later section of this lab.
+A bearer-only client is used for back-end services that do not initiate a login with Red Hat SSO, but require a valid ID token.
+The ID token is typically used by the back-end service to determine access to resources via role-based access control (RBAC).
+
+==== Review `admin-cli`
+
+In this lab, you also define a second client called `admin-cli`. `admin-cli` is an OAuth2 client. You use `admin-cli` later in this lab for testing purposes only.
+
+Note that `admin-cli` is enabled to use the OAuth2 flow called `Resource Owner Password Credentials`.
+
+Via this flow, the client allows exchanging user ID and password credentials--in this case, your SSO user--for an access token. This token can then be used to access the REST APIs of your business services.
 
 == Realm Endpoints
 
