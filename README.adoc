@@ -441,7 +441,46 @@ $ openssl x509 -in $realm_cert -text -noout
 
 == Smoke Test OAuth2 Auth and RBAC
 
-=== Business Service
+=== Overview of secured business service
+
+Very often, services need identity information about the end user invoking its functionality.
+One common use case is the need for role-based access control (RBAC). 
+Based on the end user's role, the business service determines whether to grant access to the resource being invoked.
+
+NOTE: This RBAC handled by the back-end business service is different than _policy_ and _rate limit_ enforcement that is handled by an API Manager.
+
+In this section of the lab, you will smoke test OAuth2/OIDC security using a simple backend service written using link:https://thorntail.io/[Thorntail Java Microprofile] technology.
+
+The source code for this simple service is found link:https://github.com/gpe-mw-training/3scale_onpremise_implementation_labs/tree/secure/services/wfswarm-date-service[here].
+
+In order for your microprofile back-end service to implement RBAC, the following needs to happen:
+
+* *Weave RBAC rules into your business service*: For the purposes of this lab, this step has already been done for you.
+In particular, note the following new code snippet in the `src/main/resources/project-defaults.yml` configuration file:
++
+-----
+
+swarm:
+  deployment:
+    wf-swarm-oauth.war:
+      web:
+        login-config:
+          auth-method: KEYCLOAK
+        security-constraints:
+          - url-pattern: /
+            methods: [GET]
+            roles: [admin]
+
+-----
+
+* *Add a _Keycloak adapter_*: Your back-end service needs to be injected with functionality that allows it to communicate with the Red Hat SSO server. In particular, it needs to pull the Red Hat SSO server realm's public key.
+
+* *Unpack JWT using the Red Hat SSO realm's public key*: At runtime, the back-end business service is passed a JSON Web Token (JWT) with identity information about the end user.
+This identity information includes the end user's `role`.
+Once the JWT is received, the embedded Keycloak adapter validates the authenticity of the JWT (using the Red Hat SSO realm's public key).
+Once the JWT is verified as having originated from your Red Hat SSO server, the business service uses the identity information to decide whether the end user has correct credentials to access the desired resource.
+
+=== Deployment
 In this section, you will define a DeploymentConfig for a simple backend business service that is to be secured via the OIDC protocol.
 
 . Create a new project for your mock RESTful business service applications:
