@@ -29,6 +29,24 @@
   loop: "{{ range(start_realm|int, end_realm|int + 1, 1)|list }}"
 
 
+- block:
+    - name: "Load realm to facilitate business automation tooling (Process Automation Manager / Decision Manager)"
+      set_fact:
+        realmId: 'kieRealm'
+    - template:
+        src: templates/kie-realm.json
+        dest: "{{new_app_output_dir}}/kie-realm.json"
+        mode: 0755
+    - set_fact:
+         realm_body: "{{ lookup('file', '{{new_app_output_dir}}/kie-realm.json' ) }}"
+    - debug:
+        msg: "realm_body = {{realm_body}}"
+        verbosity: 1
+    - include: realmCreate.yml realmId="{{realmId}}"
+    - debug:
+        msg: "kie-realm.json      create_realm_response = {{create_realm_response}}"
+  when: loadKieRealm|bool
+
 
 
 - name: Realm Rollout Complete

@@ -47,3 +47,5 @@ realm_provisioning_log_file: realm_provisioning.log
 start_realm: 1
 end_realm: 100
 realm_loop_delay: 2
+
+loadKieRealm: false

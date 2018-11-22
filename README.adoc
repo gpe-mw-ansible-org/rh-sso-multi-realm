@@ -67,8 +67,8 @@ These environment variables will be used throughout this role.
 
 # Update the following:
 $ echo "export OCP_PROJECT_PREFIX=<your initials>" >> ~/.bashrc          # Used later in lab when creating an OCP project
-$ echo "export ocp_sso_admin_username=sso0" >> ~/.bashrc
-$ echo "export rhsso_project=rhsso-\$ocp_sso_admin_username" >> ~/.bashrc
+$ echo "export ocp_sso_admin_prefix=sso0" >> ~/.bashrc
+$ echo "export rhsso_project=rhsso-\$ocp_sso_admin_prefix" >> ~/.bashrc
 
 # Execute the following:
 $ source ~/.bashrc
@@ -104,8 +104,8 @@ $ echo "
 
 === Provision RH-SSO
 
-The OCP namespace for the RH-SSO multi-realm application will be owned by the following user: {{ocp_sso_admin_username}}.
-{{ocp_sso_admin_username}} will be assigned a clusterquota so as to manage limits and requests assigned to 3scale
+The OCP namespace for the RH-SSO multi-realm application will be owned by the following user: {{ocp_sso_admin_prefix}}.
+A user called {{ocp_sso_admin_prefix}} will be assigned a clusterquota so as to manage limits and requests assigned to 3scale
 
 . Execute:
 +
@@ -115,7 +115,7 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"ACTION=create" \
                     -e"SSO_SITE_ADMIN_USERNAME=$SSO_SITE_ADMIN_USERNAME" \
                     -e"SSO_SITE_ADMIN_PASSWORD=$SSO_SITE_ADMIN_PASSWORD" \
-                    -e"admin_username=$ocp_sso_admin_username" \
+                    -e"admin_username=$ocp_sso_admin_prefix" \
                     -e"subdomain_base=$SUBDOMAIN_BASE"
 
 -----
@@ -141,7 +141,7 @@ issuer=C = US, O = Let's Encrypt, CN = Let's Encrypt Authority X3
 . Set an environment variable that references the URL of the newly provisioned RH-SSO:
 +
 -----
-echo "export rhsso_url=https://`oc get route sso -n rhsso-$ocp_sso_admin_username --template "{{.spec.host}}" -n rhsso-$ocp_sso_admin_username`" >> ~/.bashrc
+echo "export rhsso_url=https://`oc get route sso -n rhsso-$ocp_sso_admin_prefix --template "{{.spec.host}}" -n rhsso-$ocp_sso_admin_prefix`" >> ~/.bashrc
 
 source ~/.bashrc
 -----
@@ -175,6 +175,7 @@ END_REALM=1
 smtp_host=
 smtp_userid=
 smtp_passwd=
+loadKieRealm=false          # default is false. If true, then will load a realm utilized to support Red Hat Process Automation and Decision Manager installations
 
 ####     Create Realms
 $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
@@ -187,7 +188,8 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"smtp_userid=$smtp_userid" \
                     -e"SSO_SITE_ADMIN_USERNAME=$SSO_SITE_ADMIN_USERNAME" \
                     -e"SSO_SITE_ADMIN_PASSWORD=$SSO_SITE_ADMIN_PASSWORD" \
-                    -e"admin_username=$ocp_sso_admin_username" \
+                    -e"admin_username=$ocp_sso_admin_prefix" \
+                    -e"loadKieRealm=$loadKieRealm" \
                     -e"create_realms=true"
 
 ####    Delete Realms
@@ -199,7 +201,7 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"subdomain_base=$SUBDOMAIN_BASE" \
                     -e"SSO_SITE_ADMIN_USERNAME=$SSO_SITE_ADMIN_USERNAME" \
                     -e"SSO_SITE_ADMIN_PASSWORD=$SSO_SITE_ADMIN_PASSWORD" \
-                    -e"admin_username=$ocp_sso_admin_username" \
+                    -e"admin_username=$ocp_sso_admin_prefix" \
                     -e"create_realms=false"
 
 -----
