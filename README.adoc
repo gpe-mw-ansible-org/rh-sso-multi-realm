@@ -159,7 +159,7 @@ $ curl -v -X GET "$rhsso_url/auth/realms/master/.well-known/openid-configuration
 [[realm_mgmt]]
 === Realm management
 
-This section list ansible commands to create and delete a configurable number of SSO realms in a previously provisioned RH-SSO installation.
+This section lists ansible commands to create and delete a configurable number of SSO realms in a previously provisioned RH-SSO installation.
 
 Each of these SSO realms are enabled to allow one or more users to register as a user of this realm.
 The default behavior of registered realm users is that they are full administrators of the realm.
@@ -167,17 +167,35 @@ Obviously this behavior is appropriate for demo and learning scenarios only.
 
 Each of these realms is also pre-configured with appropriate smtp related settings necessary to deliver emails.
 
+==== KIE Realm
+If when creating realms the variable _loadKieRealm_ is set to true, then a special realm specific to supporting Business and Decision Manager scenarios will be created.
+
+Details of this provisioned _kie-realm_ are as follows:
+
+. *realmId:*  kie-realm
+. *Login URL:* $rhsso_url/auth/admin/kie-realm/console
+. *Admin User Id:* admin
+. *Admin Passwd:* admin1234
+. *KIE related roles:*
+.. admin
+.. kie-server
+.. kiemgmt
+.. rest-all
+
+==== Create Realms
+
+. Set the following environment variables in your shell and then execute the ansible command as listed below:
++
 -----
 
 #### UPDATE ME !!!!
-START_REALM=1
-END_REALM=1
-smtp_host=
+START_REALM=1               : name of first realm to be initialized will be:  user$START_REALM
+END_REALM=1                 : name of last realm to be initialized will be :  user$END_REALM
+smtp_host=                  : SMTP provider details allow RH-SSO to deliver emails in support of functionality such as User Registration
 smtp_userid=
 smtp_passwd=
-loadKieRealm=false          # default is false. If true, then will load a realm utilized to support Red Hat Process Automation and Decision Manager installations
+loadKieRealm=false          # default is false. If true, then will initialize a realm utilized to support Red Hat Process Automation and Decision Manager installations
 
-####     Create Realms
 $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"ACTION=realm_mgmt" \
                     -e"start_realm=$START_REALM" \
@@ -192,7 +210,28 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"loadKieRealm=$loadKieRealm" \
                     -e"create_realms=true"
 
-####    Delete Realms
+-----
+
+. At the conclusion of the ansible execution, console messages such as the following should be written:
++
+-----
+rh-sso-multi-realm : Realm Rollout Complete]
+
+ok: [localhost] => {
+    "msg": [
+        "create_realms: true",
+        "new_app_output_dir:  /home/jbride/provisioning_output/3295.openshift.opentlc.com",
+        "start and end realms = 1  25"
+    ]
+}
+-----
++
+The json representation of each realm created can be found in the directory mentioned as:  _new_app_output_dir_.
+
+
+====    Delete Realms
+
+-----
 $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"ocp_workload=${WORKLOAD}" \
                     -e"ACTION=realm_mgmt" \
