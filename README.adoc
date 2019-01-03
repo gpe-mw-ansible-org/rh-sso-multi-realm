@@ -189,9 +189,9 @@ Details of this provisioned _kie-realm_ are as follows:
 -----
 
 #### UPDATE ME !!!!
-START_REALM=1               : name of first realm to be initialized will be:  user$START_REALM
-END_REALM=1                 : name of last realm to be initialized will be :  user$END_REALM
-smtp_host=                  : SMTP provider details allow RH-SSO to deliver emails in support of functionality such as User Registration
+START_REALM=1               # name of first realm to be initialized will be:  user$START_REALM
+END_REALM=1                 # name of last realm to be initialized will be :  user$END_REALM
+smtp_host=                  # SMTP provider details allow RH-SSO to deliver emails in support of functionality such as User Registration
 smtp_userid=
 smtp_passwd=
 loadKieRealm=false          # default is false. If true, then will initialize a realm utilized to support Red Hat Process Automation and Decision Manager installations
