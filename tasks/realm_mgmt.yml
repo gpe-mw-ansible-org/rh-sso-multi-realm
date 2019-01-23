@@ -1,11 +1,11 @@
 ---
 
 - set_fact:
-    retrieve_token_url: "https://sso-{{ocp_project}}.{{ocp_apps_domain}}/auth/realms/master/protocol/openid-connect/token"
+    retrieve_token_url: "https://{{rhsso_url}}/auth/realms/master/protocol/openid-connect/token"
 - set_fact:
-    create_realm_url: "https://sso-{{ocp_project}}.{{ocp_apps_domain}}/auth/admin/realms"
+    create_realm_url: "https://{{rhsso_url}}/auth/admin/realms"
 - set_fact:
-    delete_realm_sub_url: "https://sso-{{ocp_project}}.{{ocp_apps_domain}}/auth/admin/realms"
+    delete_realm_sub_url: "https://{{rhsso_url}}/auth/admin/realms"
 
 
 

@@ -136,6 +136,15 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
 
 -----
 
+. Set an environment variable that references the URL of the newly provisioned RH-SSO:
++
+-----
+echo "export rhsso_url=https://`oc get route sso -n rhsso-$ocp_sso_admin_id --template "{{.spec.host}}" -n rhsso-$ocp_sso_admin_id`" >> ~/.bashrc
+
+source ~/.bashrc
+-----
+
+
 . Once provisioning has completed, view the certificate associated with the new RH-SSO server:
 +
 -----
@@ -152,14 +161,6 @@ subject=CN = master.3295.openshift.opentlc.com
 issuer=C = US, O = Let's Encrypt, CN = Let's Encrypt Authority X3
 ...
 
------
-
-. Set an environment variable that references the URL of the newly provisioned RH-SSO:
-+
------
-echo "export rhsso_url=https://`oc get route sso -n rhsso-$ocp_sso_admin_id --template "{{.spec.host}}" -n rhsso-$ocp_sso_admin_id`" >> ~/.bashrc
-
-source ~/.bashrc
 -----
 
 . If OCP cluster has been provisioned using LetsEncrypt (or some other legitimate) Certificate Authority and has been issued a wildcard certificate, you can view the details as follows:
@@ -224,6 +225,7 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"SSO_SITE_ADMIN_PASSWORD=$SSO_SITE_ADMIN_PASSWORD" \
                     -e"admin_username=$ocp_sso_admin_id" \
                     -e"loadKieRealm=$loadKieRealm" \
+                    -e"rhsso_url=$rhsso_url" \
                     -e"create_realms=true"
 
 -----
