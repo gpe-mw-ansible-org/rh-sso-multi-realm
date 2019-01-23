@@ -65,21 +65,22 @@ These environment variables will be used throughout this role.
 
 -----
 
-# Update the following:
-$ echo "export OCP_PROJECT_PREFIX=<your initials>" >> ~/.bashrc          # Used later in lab when creating an OCP project
-$ echo "export ocp_sso_admin_id=sso0" >> ~/.bashrc
-$ echo "export rhsso_project=rhsso-\$ocp_sso_admin_id" >> ~/.bashrc
+# Update each of the following and then execute:
+echo "export OCP_PROJECT_PREFIX=<your initials>" >> ~/.bashrc          # Used later in lab when creating an OCP project
+echo "export ocp_sso_admin_id=sso0" >> ~/.bashrc
+
 
 # Execute the following:
-$ source ~/.bashrc
+echo "export SSO_SITE_ADMIN_USERNAME=master" >> ~/.bashrc
+echo "export SSO_SITE_ADMIN_PASSWORD=master" >> ~/.bashrc
+echo "export rhsso_project=rhsso-\$ocp_sso_admin_id" >> ~/.bashrc
+source ~/.bashrc
 
 
-# Copy-n-paste the following:
+# Execute the following:
 SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`            #   OCP wildcard DNS after "apps";  ie; 2345.openshift.opentlc.com
                                                                                             #   oc cluster up vm:   SUBDOMAIN_BASE=clientvm.`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
                                                                                             #   ocp workshop    :   SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
-SSO_SITE_ADMIN_USERNAME=master
-SSO_SITE_ADMIN_PASSWORD=master
 
 -----
 
@@ -88,7 +89,7 @@ SSO_SITE_ADMIN_PASSWORD=master
 . Install this role locally
 +
 -----
-$ ansible-galaxy install jbride.rh_sso_multi_realm
+$ ansible-galaxy install jbride.rh_sso_multi_realm --force
 -----
 
 . Create Playbook:
@@ -108,6 +109,19 @@ $ echo "
 
 The OCP namespace for the RH-SSO multi-realm application will be owned by the following user: {{ocp_sso_admin_id}}.
 A user called {{ocp_sso_admin_id}} will be assigned a clusterquota so as to manage limits and requests assigned to 3scale
+
+. Ensure ImageStream and Templates are in `openshift` namespace:
+.. *redhat-sso72-openshift* image streams.  Execute the following if these image streams do not exist in the `openshift` namespace:
++
+-----
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/redhat-sso-7-openshift-image/rh-sso-7.2-v1.3.0/templates/sso72-image-stream.json -n openshift
+-----
+
+.. *sso72-x509-mysql-persistent* template. Execute the following if this template does not exist in the `openshift` namespace:
++
+-----
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/redhat-sso-7-openshift-image/rh-sso-7.2-v1.3.0/templates/sso72-x509-mysql-persistent.json -n openshift
+-----
 
 . Execute:
 +

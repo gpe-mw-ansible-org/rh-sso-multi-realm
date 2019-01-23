@@ -9,6 +9,31 @@
 - name: Make sure we go back to default project
   shell: "oc project default"
 
+
+### LimitRange
+###     RH-SSO template only allows for specifying RAM for SSO deployment config.
+###     Limits and requests for mysql dc are not defined and subsequently are subject to default settings in a limitrange
+- name: Ensure {{work_dir}} exists
+  file:
+    path: "{{work_dir}}"
+    state: directory
+
+- name: Delete default limitrange
+  shell: |
+    oc delete limitrange {{ocp_project}}-core-resource-limits -n {{ocp_project}}
+  ignore_errors: true
+
+- name: Create a new limitrange
+  template:
+    src: templates/limitrange.yaml
+    dest: "{{work_dir}}/limitrange.yaml"
+- shell: |
+    oc create -f {{work_dir}}/limitrange.yaml -n {{ocp_project}}
+
+- name: Annotate the empty project as requested by user
+  shell: "oc annotate namespace {{ocp_project}} openshift.io/requester={{admin_username}} --overwrite"
+
+
 ### RH-SSO Setup
 
 - name: Create SSO Service Account
@@ -25,7 +50,7 @@
            --param=SSO_ADMIN_PASSWORD={{SSO_SITE_ADMIN_PASSWORD}} \
            --param=MEMORY_LIMIT=2Gi \
            -n {{ocp_project}} \
-           > /tmp/sso_provision.txt
+           > {{work_dir}}/sso_provision.txt
 
 - pause:
     seconds: 5
@@ -39,9 +64,6 @@
 
 ### Project finalization
   
-- name: Annotate the empty project as requested by user
-  shell: "oc annotate namespace {{ocp_project}} openshift.io/requester={{admin_username}} --overwrite"
-
 - name: Give admin_username access to ocp_project; user = {{admin_username}}
   shell: "oc policy add-role-to-user admin {{admin_username}} -n {{ocp_project}}"
 

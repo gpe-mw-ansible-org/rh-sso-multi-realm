@@ -25,15 +25,13 @@ quota_requests_storage: 50Gi
 
 ocp_apps_domain: "apps.{{subdomain_base}}"
 
-build_status_retries: 20
-build_status_delay: 20
-
 deploy_status_retries: 15
-deploy_status_delay: 20
+deploy_status_delay: 30
 
 shared_ns: shared-opentlc
 
 ocp_project: "rhsso-{{admin_username}}"
+work_dir: "/tmp/{{ocp_project}}"
 
 sso_client_id: 'admin-cli'
 rhsso_template_name: sso72-x509-mysql-persistent
