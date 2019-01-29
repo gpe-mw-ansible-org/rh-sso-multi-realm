@@ -1,11 +1,11 @@
 ---
 
 - set_fact:
-    retrieve_token_url: "https://{{rhsso_url}}/auth/realms/master/protocol/openid-connect/token"
+    retrieve_token_url: "{{rhsso_url}}/auth/realms/master/protocol/openid-connect/token"
 - set_fact:
-    create_realm_url: "https://{{rhsso_url}}/auth/admin/realms"
+    create_realm_url: "{{rhsso_url}}/auth/admin/realms"
 - set_fact:
-    delete_realm_sub_url: "https://{{rhsso_url}}/auth/admin/realms"
+    delete_realm_sub_url: "{{rhsso_url}}/auth/admin/realms"
 
 
 
@@ -17,19 +17,20 @@
 
 
 # 2)  Create or delete configurable number of realms
-- name: "Loop through realm prep {{start_realm}} {{end_realm}}"
-  include: realmPrep.yml realmId="realm{{item}}"
-  loop: "{{ range(start_realm|int, end_realm|int + 1, 1)|list }}"
+#- name: "Loop through realm prep {{start_realm}} {{end_realm}}"
+#  include: realmPrep.yml realmId="realm{{item}}"
+#  loop: "{{ range(start_realm|int, end_realm|int + 1, 1)|list }}"
 
 
+# 3) Load realm to facilitate business automation tooling (Process Automation Manager / Decision Manager)
 - block:
     - name: "Load realm to facilitate business automation tooling (Process Automation Manager / Decision Manager)"
-      set_fact:
-        realmId: 'kieRealm'
-    - template:
+      template:
         src: templates/kie-realm.json
         dest: "{{new_app_output_dir}}/kie-realm.json"
         mode: 0755
+    - set_fact:
+        realmId: 'kieRealm'
     - set_fact:
          realm_body: "{{ lookup('file', '{{new_app_output_dir}}/kie-realm.json' ) }}"
     - debug:
@@ -40,26 +41,35 @@
         msg: "kie-realm.json      create_realm_response = {{create_realm_response}}"
   when: loadKieRealm|bool
 
+
+- pause:
+    seconds: "{{realm_loop_delay}}"
+
+
+# 4) Configure OCP to use RH-SSO for Authentication
 - block:
     - name: "Configure OCP to use RH-SSO for Authentication"
       set_fact:
-        realmId: 'kieRealm'
+        realmId: 'ocpRealm'
     - name: set fact ocp_master_url
       shell: |
         oc whoami --show-server
       register: ocp_master_url
+    - debug:
+        msg: "{{ realmId }}  ocp_master_url = {{ ocp_master_url.stdout }}"
+        verbosity: 0
     - template:
         src: templates/ocp-realm.json
         dest: "{{new_app_output_dir}}/ocp-realm.json"
         mode: 0755
     - set_fact:
-         realm_body: "{{ lookup('file', '{{new_app_output_dir}}/kie-realm.json' ) }}"
+         realm_body: "{{ lookup('file', '{{new_app_output_dir}}/ocp-realm.json' ) }}"
     - debug:
-        msg: "realm_body = {{realm_body}}"
+        msg: "{{ realmId }}  realm_body = {{realm_body}}"
         verbosity: 1
     - include: realmCreate.yml realmId="{{realmId}}"
     - debug:
-        msg: "kie-realm.json      create_realm_response = {{create_realm_response}}"
+        msg: "ocp-realm.json      create_realm_response = {{create_realm_response}}"
   when: loadOCPRealm|bool
 
 

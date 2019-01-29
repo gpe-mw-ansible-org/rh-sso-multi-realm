@@ -20,7 +20,7 @@
   when: RTKN is defined
 
 - block:
-  - name: "      get access and refresh tokens "
+  - name: " get access and refresh tokens {{ retrieve_token_url }} ,  sso_client_id = {{ sso_client_id }} "
     uri:
       url: "{{retrieve_token_url}}"
       method: POST
