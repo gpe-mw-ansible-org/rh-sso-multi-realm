@@ -77,10 +77,12 @@ echo "export rhsso_project=rhsso-\$ocp_sso_admin_id" >> ~/.bashrc
 source ~/.bashrc
 
 
-# Execute the following:
-SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`            #   OCP wildcard DNS after "apps";  ie; 2345.openshift.opentlc.com
-                                                                                            #   oc cluster up vm:   SUBDOMAIN_BASE=clientvm.`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
-                                                                                            #   ocp workshop    :   SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
+#   OCP wildcard DNS after "apps";  ie; 2345.openshift.opentlc.com
+#   	oc cluster up vm:   SUBDOMAIN_BASE=clientvm.`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
+#   	ocp workshop    :   SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
+#   Execute the following:
+echo "SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`" >> ~/.bashrc
+
 
 -----
 

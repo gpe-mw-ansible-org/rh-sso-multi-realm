@@ -49,3 +49,7 @@ realm_loop_delay: 2
 
 loadKieRealm: false
 loadOCPRealm: true
+
+start_user: 1
+end_user: 10
+user_create_loop_delay: 1

@@ -1,7 +1,7 @@
       {  
-         "username":"ocp{{ ocp_user_id  }}",
+         "username":"ocp{{ item }}",
          "enabled":true,
-         "email":"ocp{{ ocp_user_id }}@openshift.opentlc.com",
+         "email":"ocp{{ item }}@openshift.opentlc.com",
          "credentials":[
             {  
                "type":"password",

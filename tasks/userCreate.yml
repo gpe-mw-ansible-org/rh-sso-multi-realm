@@ -1,0 +1,32 @@
+---
+
+- name: "{{ realmId }}      Create user prep {{ item }} "
+  template:
+    src: templates/generic-user.json
+    dest: "{{ new_app_output_dir }}/user.json"
+    mode: 0755
+- set_fact:
+    user_body: "{{ lookup('file', '{{ new_app_output_dir }}/user.json') }}"
+- debug:
+    msg: "user_body = {{ user_body }}"
+    verbosity: 1
+
+- name: "{{ realmId }}      Create user {{ item }}"
+  uri:
+    url: "{{ create_user_url }}/{{realmId}}/users"
+    method: POST
+    headers:
+      Content-Type: "application/json;charset=UTF-8"
+      Authorization: "Bearer {{ ATKN }}"
+    body: "{{ user_body }}"
+    timeout: 10
+    status_code: 201,409
+    return_content: yes
+    body_format: json
+  register: create_user_response
+
+- debug:
+    msg: "{{ realmId }}  {{ item }}     create_user_response = {{ create_user_response }}"
+
+- pause:
+    seconds: "{{user_create_loop_delay}}"
