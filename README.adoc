@@ -215,7 +215,7 @@ Obviously this behavior is appropriate for demo and learning scenarios only.
 
 Each of these realms is also pre-configured with appropriate smtp related settings necessary to deliver emails.
 
-==== KIE Realm
+=== KIE Realm
 If when creating realms the variable _loadKieRealm_ is set to true, then a special realm specific to supporting Business and Decision Manager scenarios will be created.
 
 Details of this provisioned _kie-realm_ are as follows:
@@ -232,7 +232,7 @@ Details of this provisioned _kie-realm_ are as follows:
 
 
 
-==== OpenShift Realm
+=== OpenShift Realm
 
 If when creating realms the variable _loadOCPRealm_ is set to true, then OCP will configured to link:https://access.redhat.com/documentation/en-us/red_hat_jboss_middleware_for_openshift/3/html/red_hat_single_sign-on_for_openshift/tutorials#OSE-SSO-AUTH-TUTE[use RH-SSO for Authentication] .
 
@@ -245,7 +245,10 @@ Details of this provisioned _ocp-realm_ are as follows:
 . *Admin Passwd:* r3dh4t1!
 . *OCP related roles:*
 +
-None.  Roles must be assigned by a cluster admin as per the instructions in : {{new_app_output_dir}}/ocp-realm-suggestion.txt
+None.  Roles must be assigned by a cluster admin .
+
+After provisioning of the `ocp-realm` in RH-SSO, there are some additional steps to execute in the master node of OCP.
+Details regarding these steps are detailed in : {{new_app_output_dir}}/ocp-realm-suggestion.txt
 
 
 ==== Create Realms
