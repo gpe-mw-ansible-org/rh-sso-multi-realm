@@ -8,6 +8,8 @@
     delete_realm_sub_url: "{{rhsso_url}}/auth/admin/realms"
 - set_fact:
     create_user_url: "{{rhsso_url}}/auth/admin/realms"
+- set_fact:
+    ocp_master_url: "https://master.{{subdomain_base}}:443"
 
 
 
@@ -22,6 +24,7 @@
 - name: "Loop through realm prep {{start_realm}} {{end_realm}}"
   include: realmPrep.yml realmId="realm{{item}}"
   loop: "{{ range(start_realm|int, end_realm|int + 1, 1)|list }}"
+  when: end_realm > 0
 
 
 # 3) Load realm to facilitate business automation tooling (Process Automation Manager / Decision Manager)
@@ -53,12 +56,8 @@
     - name: "Configure OCP to use RH-SSO for Authentication"
       set_fact:
         realmId: 'ocp-realm'
-    - name: set fact ocp_master_url
-      shell: |
-        oc whoami --show-server
-      register: ocp_master_url
     - debug:
-        msg: "{{ realmId }}  ocp_master_url = {{ ocp_master_url.stdout }}"
+        msg: "{{ realmId }}  ocp_master_url = {{ ocp_master_url }}"
         verbosity: 0
     - template:
         src: templates/ocp-realm.json
@@ -72,6 +71,10 @@
     - include: realmCreate.yml realmId="{{realmId}}"
     - debug:
         msg: "ocp-realm.json      create_realm_response = {{create_realm_response}}"
+    - template:
+        src: templates/ocp-realm-suggestion.txt
+        dest: "{{new_app_output_dir}}/ocp-realm-suggestion.txt"
+        mode: 0755
     - name: "{{ realmId }}   Loop through user creation {{start_user}} {{end_user}}"
       include: userCreate.yml
       loop: "{{ range(start_user|int, end_user|int + 1, 1)|list }}"
@@ -88,3 +91,4 @@
       - "new_app_output_dir:  {{new_app_output_dir}}"
       - "realm_management_log_file = {{new_app_output_dir}}/{{realm_provisioning_log_file}}"
       - "start and end realms = {{start_realm}}  {{end_realm}}"
+      - "ocp realm details :   {{new_app_output_dir}}/ocp-realm-suggestion.txt"

@@ -201,7 +201,13 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
 [[realm_mgmt]]
 == Realm Creation / Deletion
 
-This section lists ansible commands to create and delete a configurable number of SSO realms in a previously provisioned RH-SSO installation.
+This section lists ansible commands to create and delete SSO realms
+
+=== Generic Realms
+
+A configurable number of SSO realms will be created based on the value of the following variables: `start_realm` and `end_realm`..
+
+If the value of `end_realm` is less than 1, then generic tenants will not be created.
 
 Each of these SSO realms are enabled to allow one or more users to register as a user of this realm.
 The default behavior of registered realm users is that they are full administrators of the realm.
@@ -235,12 +241,11 @@ Details of this provisioned _ocp-realm_ are as follows:
 . *realmId:*  ocp-realm
 . *Login URL:* $rhsso_url/auth/admin/ocp-realm/console
 . *SSO Client:* ocp-client
-. *Admin User Id:* admin
-. *Admin Passwd:* admin1234
+. *Admin User Id:* gpte-mgr
+. *Admin Passwd:* r3dh4t1!
 . *OCP related roles:*
-.. admin
-. *OCP users:*
-.. admin
++
+None.  Roles must be assigned by a cluster admin as per the instructions in : {{new_app_output_dir}}/ocp-realm-suggestion.txt
 
 
 ==== Create Realms
@@ -250,13 +255,14 @@ Details of this provisioned _ocp-realm_ are as follows:
 -----
 
 #### UPDATE ME !!!!
-START_REALM=1               # name of first realm to be initialized will be:  user$START_REALM
-END_REALM=1                 # name of last realm to be initialized will be :  user$END_REALM
+START_REALM=1               # first realm to be initialized will be:  realm$START_REALM
+END_REALM=1                 # last realm to be initialized will be :  realm$END_REALM ; if value is less than 1, then generic realms will not be created
 smtp_host=                  # SMTP provider details allow RH-SSO to deliver emails in support of functionality such as User Registration
 smtp_userid=
 smtp_passwd=
 loadKieRealm=false          # default is false. If true, then will initialize a realm utilized to support Red Hat Process Automation and Decision Manager installations
 loadOCPRealm=true           # default is true. If true, then will configure a realm called ocp-realm that can be used to configure OCP to leverage RH-SSO for authentication
+end_user=1                  # last user to be created in ocp-realm will be:  user$end_user
 
 $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"ACTION=realm_mgmt" \
@@ -271,6 +277,7 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"admin_username=$ocp_sso_admin_id" \
                     -e"loadKieRealm=$loadKieRealm" \
                     -e"loadOCPRealm=$loadOCPRealm" \
+                    -e"end_user=$end_user" \
                     -e"rhsso_url=$rhsso_url" \
                     -e"create_realms=true"
 

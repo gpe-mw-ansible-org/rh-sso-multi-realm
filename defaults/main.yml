@@ -48,8 +48,9 @@ end_realm: 100
 realm_loop_delay: 2
 
 loadKieRealm: false
-loadOCPRealm: true
 
+loadOCPRealm: true
+ocp_client_secret: 1bd2abc31ccd4c881a57345de2af
 start_user: 1
 end_user: 10
 user_create_loop_delay: 1

@@ -1,0 +1,49 @@
+
+1)  In the master node of your OCP deployment, add the following to the "IdentityProviders" section of the config file /etc/origin/master/master-config.yaml  :
+
+-----
+
+    name: rh_sso
+    challenge: false
+    login: true
+    mappingInfo: add
+    provider:
+      apiVersion: v1
+      kind: OpenIDIdentityProvider
+      clientID: ocp-client
+      clientSecret: {{ ocp_client_secret }}
+      urls:
+        authorize: {{ create_realm_url }}/{{ realmId }}/protocol/openid-connect/auth
+        token: {{ create_realm_url }}/{{ realmId }}/protocol/openid-connect/token
+        userInfo: {{ create_realm_url }}/{{ realmId }}/protocol/openid-connect/userinfo
+      claims:
+        id:
+        - sub
+        preferredUsername:
+        - preferred_username
+        name:
+        - name
+        email:
+        - email
+
+-----
+
+
+
+
+2)  Bounce the master API server as follows:
+
+-----
+
+/usr/local/bin/master-restart api
+
+-----
+
+
+
+3)  As a cluster admin, make the "gpte-mgr" user a cluster admin
+-----
+
+oc adm policy add-cluster-role-to-user cluster-admin gpte-mgr
+
+-----

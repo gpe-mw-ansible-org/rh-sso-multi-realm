@@ -1039,9 +1039,9 @@
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "{{ ocp_client_secret }}",
       "redirectUris": [
-        "{{ ocp_master_url.stdout }}/*"
+        "{{ ocp_master_url }}/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
