@@ -1221,7 +1221,7 @@
     "port": "587",
     "host": "{{smtp_host}}",
     "replyTo": "rhtgpte_donotreply@redhat.com",
-    "from": "opentlc-infra-admins@redhat.com",
+    "from": "rhtgpte-admins@redhat.com",
     "fromDisplayName": "{{realmId}} Admin",
     "ssl": "",
     "user": "{{smtp_userid}}"

@@ -89,7 +89,7 @@ SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
 . Install this role locally
 +
 -----
-$ ansible-galaxy install jbride.rh_sso_multi_realm --force
+$ ansible-galaxy install gpe_mw_ansible.rh_sso_multi_realm --force
 -----
 
 . Create Playbook:
@@ -101,7 +101,7 @@ $ echo "
   gather_facts: False
   vars_files:
   roles:
-    - jbride.rh_sso_multi_realm
+    - gpe_mw_ansible.rh_sso_multi_realm
 " > /tmp/rh_sso_multi_realm.yml
 -----
 
@@ -199,6 +199,25 @@ Details of this provisioned _kie-realm_ are as follows:
 .. kiemgmt
 .. rest-all
 
+
+
+==== OpenShift Realm
+
+If when creating realms the variable _loadOCPRealm_ is set to true, then OCP will configured to link:https://access.redhat.com/documentation/en-us/red_hat_jboss_middleware_for_openshift/3/html/red_hat_single_sign-on_for_openshift/tutorials#OSE-SSO-AUTH-TUTE[use RH-SSO for Authentication] .
+
+Details of this provisioned _ocp-realm_ are as follows:
+
+. *realmId:*  ocp-realm
+. *Login URL:* $rhsso_url/auth/admin/ocp-realm/console
+. *SSO Client:* ocp-client
+. *Admin User Id:* admin
+. *Admin Passwd:* admin1234
+. *OCP related roles:*
+.. admin
+. *OCP users:*
+.. admin
+
+
 ==== Create Realms
 
 . Set the following environment variables in your shell and then execute the ansible command as listed below:
@@ -212,6 +231,7 @@ smtp_host=                  # SMTP provider details allow RH-SSO to deliver emai
 smtp_userid=
 smtp_passwd=
 loadKieRealm=false          # default is false. If true, then will initialize a realm utilized to support Red Hat Process Automation and Decision Manager installations
+loadOCPRealm=true           # default is true. If true, then will configure a realm called ocp-realm that can be used to configure OCP to leverage RH-SSO for authentication
 
 $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"ACTION=realm_mgmt" \
@@ -225,6 +245,7 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"SSO_SITE_ADMIN_PASSWORD=$SSO_SITE_ADMIN_PASSWORD" \
                     -e"admin_username=$ocp_sso_admin_id" \
                     -e"loadKieRealm=$loadKieRealm" \
+                    -e"loadOCPRealm=$loadOCPRealm" \
                     -e"rhsso_url=$rhsso_url" \
                     -e"create_realms=true"
 
@@ -278,7 +299,7 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
 . Open a web browser and navigate to the console of the `master` realm :
 +
 -----
-$ echo -en "\n$rhsso_url/auth/admin/master/console\n\n"
+$ echo -en "\nhttps://$rhsso_url/auth/admin/master/console\n\n"
 -----
 
 . Authenticate using the values of the $SSO_SITE_ADMIN_USERNAME and $SSO_SITE_ADMIN_PASSWORD environment variables used when the RH-SSO instance was provisioned.

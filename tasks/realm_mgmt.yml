@@ -40,6 +40,28 @@
         msg: "kie-realm.json      create_realm_response = {{create_realm_response}}"
   when: loadKieRealm|bool
 
+- block:
+    - name: "Configure OCP to use RH-SSO for Authentication"
+      set_fact:
+        realmId: 'kieRealm'
+    - name: set fact ocp_master_url
+      shell: |
+        oc whoami --show-server
+      register: ocp_master_url
+    - template:
+        src: templates/ocp-realm.json
+        dest: "{{new_app_output_dir}}/ocp-realm.json"
+        mode: 0755
+    - set_fact:
+         realm_body: "{{ lookup('file', '{{new_app_output_dir}}/kie-realm.json' ) }}"
+    - debug:
+        msg: "realm_body = {{realm_body}}"
+        verbosity: 1
+    - include: realmCreate.yml realmId="{{realmId}}"
+    - debug:
+        msg: "kie-realm.json      create_realm_response = {{create_realm_response}}"
+  when: loadOCPRealm|bool
+
 
 
 # 3)  Print log messages

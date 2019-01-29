@@ -23,6 +23,7 @@ quota_services: 150
 quota_secrets: 150
 quota_requests_storage: 50Gi
 
+subdomain_base: overrideme
 ocp_apps_domain: "apps.{{subdomain_base}}"
 
 deploy_status_retries: 15
@@ -47,3 +48,4 @@ end_realm: 100
 realm_loop_delay: 2
 
 loadKieRealm: false
+loadOCPRealm: true
