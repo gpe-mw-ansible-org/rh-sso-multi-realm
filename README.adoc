@@ -173,8 +173,31 @@ $ curl -v -X GET "$rhsso_url/auth/realms/master/.well-known/openid-configuration
 *  subjectAltName: host "sso-rhsso-sso0.apps.3295.openshift.opentlc.com" matched cert's "*.apps.3295.openshift.opentlc.com"
 -----
 
+=== RH-SSO Admin Console
+. Open a web browser and navigate to the console of the `master` realm :
++
+-----
+$ echo -en "\nhttps://$rhsso_url/auth/admin/master/console\n\n"
+-----
+
+. Authenticate using the values of the $SSO_SITE_ADMIN_USERNAME and $SSO_SITE_ADMIN_PASSWORD environment variables used when the RH-SSO instance was provisioned.
+
+. As the RH-SSO site admin, you have full access to all of its resources.
++
+image::images/master_homepage.png[]
+
+
+=== Delete RH-SSO
+
+-----
+$ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
+                    -e"ACTION=remove" \
+                    -e"subdomain_base=$SUBDOMAIN_BASE"
+-----
+
+
 [[realm_mgmt]]
-=== Realm management
+== Realm Creation / Deletion
 
 This section lists ansible commands to create and delete a configurable number of SSO realms in a previously provisioned RH-SSO installation.
 
@@ -286,27 +309,6 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
 
 
 
-=== Delete RH-SSO
-
------
-$ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
-                    -e"ACTION=remove" \
-                    -e"subdomain_base=$SUBDOMAIN_BASE"
------
-
-
-=== RH-SSO Admin Console
-. Open a web browser and navigate to the console of the `master` realm :
-+
------
-$ echo -en "\nhttps://$rhsso_url/auth/admin/master/console\n\n"
------
-
-. Authenticate using the values of the $SSO_SITE_ADMIN_USERNAME and $SSO_SITE_ADMIN_PASSWORD environment variables used when the RH-SSO instance was provisioned.
-
-. As the RH-SSO site admin, you have full access to all of its resources.
-+
-image::images/master_homepage.png[]
 
 
 
@@ -399,7 +401,7 @@ These `well-known` endpoints are specific to the user's SSO realm.
 Red Hat SSO also exposes realm administration endpoints.
 A few of these realm admin endpoints are also introduced in this section.
 
-This entire section can be copy-n-pasted intoecho -en "\n$rhsso_url/auth/admin/master/console\n\n" the lab instructions of your course.
+This entire section can be copy-n-pasted into the lab instructions of your course.
 
 The following utilities will need to be installed on your local machine:
 
