@@ -1,0 +1,23 @@
+      {  
+         "username":"ocp{{ ocp_user_id  }}",
+         "enabled":true,
+         "email":"ocp{{ ocp_user_id }}@openshift.opentlc.com",
+         "credentials":[
+            {  
+               "type":"password",
+               "value":"r3dh4t1!"
+            }
+         ],
+         "realmRoles":[
+            "user"
+         ],
+         "clientRoles":{
+            "account":[
+               "view-profile",
+               "manage-account"
+            ]
+         },
+         "groups":[
+
+         ]
+      }

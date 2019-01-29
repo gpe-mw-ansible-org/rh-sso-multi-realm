@@ -34,13 +34,13 @@
    "failureFactor":30,
    "users":[
       {
-         "username":"admin",
+         "username":"gpte-mgr",
          "enabled":true,
          "email":"admin@openshift.opentlc.com",
          "credentials":[
             {
                "type":"password",
-               "value":"admin1234"
+               "value":"r3dh4t1!"
             }
          ],
          "realmRoles":[
@@ -64,149 +64,6 @@
                "query-clients",
                "query-realms",
                "realm-admin"
-            ]
-         },
-         "groups":[
-
-         ]
-      },
-      {
-         "username":"adminuser",
-         "enabled":true,
-         "email":"adminuser@openshift.opentlc.com",
-         "credentials":[
-            {
-               "type":"password",
-               "value":"test1234!"
-            }
-         ],
-         "realmRoles":[
-            "Administrators",
-            "admin",
-         ],
-         "clientRoles":{
-            "account":[
-               "view-profile",
-               "manage-account"
-            ]
-         },
-         "groups":[
-            "supplier",
-            "analyst",
-            "manager"
-         ]
-      },{
-         "username":"controlleruser",
-         "enabled":true,
-         "email":"controller@openshift.opentlc.com",
-         "credentials":[
-            {
-               "type":"password",
-               "value":"test1234!"
-            }
-         ],
-         "realmRoles":[
-            "admin",
-         ],
-         "clientRoles":{
-            "account":[
-               "view-profile",
-               "manage-account"
-            ]
-         },
-         "groups":[
-            "supplier",
-            "analyst",
-            "manager"
-         ]
-      },
-      {
-         "username":"casemanager",
-         "enabled":true,
-         "email":"casemanager@openshift.opentlc.com",
-         "credentials":[
-            {
-               "type":"password",
-               "value":"r3dh4t1!"
-            }
-         ],
-         "realmRoles":[
-
-         ],
-         "clientRoles":{
-            "account":[
-               "view-profile",
-               "manage-account"
-            ]
-         },
-         "groups":[
-            "manager"
-         ]
-      },
-      {
-         "username":"casesupplier",
-         "enabled":true,
-         "email":"casesupplier@openshift.opentlc.com",
-         "credentials":[
-            {
-               "type":"password",
-               "value":"r3dh4t1!"
-            }
-         ],
-         "realmRoles":[
-
-         ],
-         "clientRoles":{
-            "account":[
-               "view-profile",
-               "manage-account"
-            ]
-         },
-         "groups":[
-            "supplier"
-         ]
-      },
-      {
-         "username":"caseuser",
-         "enabled":true,
-         "email":"caseuser@openshift.opentlc.com",
-         "credentials":[
-            {
-               "type":"password",
-               "value":"r3dh4t1!"
-            }
-         ],
-         "realmRoles":[
-            "user"
-         ],
-         "clientRoles":{
-            "account":[
-               "view-profile",
-               "manage-account"
-            ]
-         },
-         "groups":[
-
-         ]
-      },
-      {
-         "username":"developer",
-         "enabled":true,
-         "email":"developer@openshift.opentlc.com",
-         "credentials":[
-            {
-               "type":"password",
-               "value":"r3dh4t1!"
-            }
-         ],
-         "realmRoles":[
-            "admin",
-            "user"
-         ],
-         "clientRoles":{
-            "account":[
-               "view-profile",
-               "manage-account"
             ]
          },
          "groups":[
