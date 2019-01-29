@@ -324,13 +324,12 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
 
 
 
-== Realm User Registration
-This section of the lab assumes you have already provisioned one or more SSO realms as per the <<realm_mgmt>> section of this lab.
+== Generic Realms: User Registration
+This section of the lab assumes you have already provisioned one or more generic SSO realms as per the <<realm_mgmt>> section of this lab.
 
-The purpose of this section is to provide students with instructions that detail how to register as a user of a previously provisioned SSO realm.
+The purpose of this section is to provide students with instructions that detail how to register as a user of a previously provisioned generic SSO realm.
 This entire section can be copy-n-pasted into the lab instructions of a course that leverages this multi-realm RH-SSO.
 
-=== Registration
 
 . Set an environment variable that corresponds to a specific realm that you want to utilize:
 +
@@ -380,7 +379,7 @@ Notice the presence of 5 default SSO clients.  Each of them is configured to all
 +
 image::images/default_sso_clients.png[]
 
-=== Explore Clients
+=== Generic Realms: Explore Clients
 
 A client, in the context of OAuth2 terminology, is an application requesting access to a protected resource on behalf of a _Resource Owner_.
 The Resource Owner is typically an end user (also known as an entity) and the protected resource might be confidential attributes from one or more _identities_ of that Resource Owner/entity.
@@ -401,7 +400,7 @@ Note that `admin-cli` is enabled to use the OAuth2 flow called `Resource Owner P
 
 Via this flow, the client allows exchanging user ID and password credentials--in this case, your SSO user--for an access token. This token can then be used to access the REST APIs of your business services.
 
-== Realm Endpoints
+== Generic Realms: Endpoints
 
 === Overview
 
@@ -532,7 +531,7 @@ $ echo "-----BEGIN CERTIFICATE-----" > $realm_cert; echo $RSA_CERT >> $realm_cer
 $ openssl x509 -in $realm_cert -text -noout
 -----
 
-== Smoke Test OAuth2 Auth and RBAC
+== Generic Realms: Smoke Test OAuth2 Auth and RBAC
 
 === Overview of secured business service
 
