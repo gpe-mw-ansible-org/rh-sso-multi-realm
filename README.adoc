@@ -234,7 +234,8 @@ Details of this provisioned _kie-realm_ are as follows:
 
 === OpenShift Realm
 
-If when creating realms the variable _loadOCPRealm_ is set to true, then OCP will configured to link:https://access.redhat.com/documentation/en-us/red_hat_jboss_middleware_for_openshift/3/html/red_hat_single_sign-on_for_openshift/tutorials#OSE-SSO-AUTH-TUTE[use RH-SSO for Authentication] .
+If when creating realms the variable _loadOCPRealm_ is set to true, then a realm called `ocp-realm` will be created.
+Its purpose is to serve as an link:https://access.redhat.com/documentation/en-us/red_hat_jboss_middleware_for_openshift/3/html/red_hat_single_sign-on_for_openshift/tutorials#OSE-SSO-AUTH-TUTE[IdentityProvider for authentication to OCP]  .
 
 Details of this provisioned _ocp-realm_ are as follows:
 
@@ -243,6 +244,7 @@ Details of this provisioned _ocp-realm_ are as follows:
 . *SSO Client:* ocp-client
 . *Admin User Id:* gpte-mgr
 . *Admin Passwd:* r3dh4t1!
+. *SSO user:* Configurable number of users associated with this realm are created as per the variables: `start_user` and `end_user`
 . *OCP related roles:*
 +
 None.  Roles must be assigned by a cluster admin .
@@ -251,7 +253,17 @@ After provisioning of the `ocp-realm` in RH-SSO, there are some additional steps
 Details regarding these steps are detailed in : {{new_app_output_dir}}/ocp-realm-suggestion.txt
 
 
+==== SMTP Providers
+It's likely that you will want your RH-SSO realms to have the ability to send emails.
+As an example, the `generic realms` configured as part of this ansible role are configured for a user sign-up flow that requires the new user to verify signup via a link provided in an email.
+
+A couple of SMTP providers with _Free Plans_ are listed below:
+
+. *SocketLabs:* Currently offering a free plan that allows for link:https://www.socketlabs.com/signup/[2000 emails per month]
+. *SendGrid:* Currently offering a free plan that allows for link:https://sendgrid.com/pricing/[100 emails per day]
+
 ==== Create Realms
+
 
 . Set the following environment variables in your shell and then execute the ansible command as listed below:
 +
