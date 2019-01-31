@@ -71,4 +71,4 @@
 
 
 - pause:
-    seconds: "{{realm_loop_delay}}"
+    seconds: "{{realm_create_delay}}"

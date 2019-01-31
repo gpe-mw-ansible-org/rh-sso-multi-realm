@@ -21,10 +21,10 @@
 
 
 # 2)  Create or delete configurable number of realms
-- name: "Loop through realm prep {{start_realm}} {{end_realm}}"
-  include: realmPrep.yml realmId="realm{{item}}"
-  loop: "{{ range(start_realm|int, end_realm|int + 1, 1)|list }}"
-  when: end_realm > 0
+- name: "{{ realm_base_name }}       Loop through realm prep {{ first_generic_realm }} {{ last_generic_realm }}"
+  include: realmPrep.yml realmId="{{ realm_base_name }}{{ item }}"
+  loop: "{{ range(first_generic_realm|int, last_generic_realm|int + 1, 1)|list }}"
+  when: last_generic_realm|int > 0
 
 
 # 3) Load realm to facilitate business automation tooling (Process Automation Manager / Decision Manager)
@@ -48,7 +48,7 @@
 
 
 - pause:
-    seconds: "{{realm_loop_delay}}"
+    seconds: "{{realm_create_delay}}"
 
 
 # 4) Configure OCP to use RH-SSO for Authentication
@@ -75,9 +75,9 @@
         src: templates/ocp-realm-suggestion.txt
         dest: "{{new_app_output_dir}}/ocp-realm-suggestion.txt"
         mode: 0755
-    - name: "{{ realmId }}   Loop through user creation {{start_user}} {{end_user}}"
+    - name: "{{ realmId }}   Loop through user creation {{start_ocp_user}} {{end_ocp_user}}"
       include: userCreate.yml
-      loop: "{{ range(start_user|int, end_user|int + 1, 1)|list }}"
+      loop: "{{ range(start_ocp_user|int, end_ocp_user|int + 1, 1)|list }}"
 
   when: loadOCPRealm|bool
 
@@ -90,5 +90,5 @@
       - "create_realms: {{create_realms}}"
       - "new_app_output_dir:  {{new_app_output_dir}}"
       - "realm_management_log_file = {{new_app_output_dir}}/{{realm_provisioning_log_file}}"
-      - "start and end realms = {{start_realm}}  {{end_realm}}"
+      - "start and end realms = {{first_generic_realm}}  {{last_generic_realm}}"
       - "ocp realm details :   {{new_app_output_dir}}/ocp-realm-suggestion.txt"
