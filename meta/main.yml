@@ -1,6 +1,6 @@
 galaxy_info:
-  author: JA Bride
-  description: Provisions a RH-SSO deployment in OpenShift with a configurable number of SSO realms
+  author: jbride
+  description: Red Hat Single Sign-On Multi-Realm  Automated Provisioning
   company: Red Hat
 
   # If the issue tracker for your role is not on github, uncomment the
@@ -11,10 +11,10 @@ galaxy_info:
   # - BSD (default)
   # - MIT
   # - GPLv2
-  # - GPLv3
   # - Apache
   # - CC-BY
   license: license (GPLv2, CC-BY, etc)
+    - GPLv3
 
   min_ansible_version: 2.4
 
@@ -35,17 +35,13 @@ galaxy_info:
   # To view available platforms and versions (or releases), visit:
   # https://galaxy.ansible.com/api/v1/platforms/
   #
-  # platforms:
-  # - name: Fedora
-  #   versions:
-  #   - all
-  #   - 25
-  # - name: SomePlatform
-  #   versions:
-  #   - all
-  #   - 1.0
-  #   - 7
-  #   - 99.99
+  platforms:
+  - name: Fedora
+    versions:
+    - 29
+  - name: EL
+    versions:
+    - 7
 
   galaxy_tags:
     # List tags for your role here, one per line. A tag is a keyword that describes
@@ -54,9 +50,10 @@ galaxy_info:
     #
     # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
     #       Maximum 20 tags per role.
-    Red Hat
-    RH-SSO
-     
+    - rhsso
+    - oauth2
+    - oidc
+    - identityprovider
 
 dependencies: []
   # List your role dependencies here, one per line. Be sure to remove the '[]' above,
