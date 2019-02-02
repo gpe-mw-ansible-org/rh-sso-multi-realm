@@ -56,6 +56,25 @@ Ensure that this `oc` client is on the $PATH of your local environment and its v
 . [blue]#The local oc client will need to already be authenticated to the remote OCP environment as a cluster-admin user.#
 
 
+==== Wildcard Certificate
+
+This ansible role assumes that your pre-existing OCP cluster is configured with a certificate signed by a legitimate Certificate Authority (such as LetsEncrypt).
+
+If interested, a very nice tutorial on acquiring a LetsEncrypt wildcard certificate and applying it to your OCP cluster can be found here:
+
+* Hey Tate: How to purchase a domain name for valid SSL certs in your development systems.
+** https://youtu.be/sBcDnQj9_QM
+** https://docs.google.com/document/d/1APb8DF9JkbuGA3FaI8cXdSeFU0FsW93auUofPj6n4zo/edit?usp=sharing
+
+* Hey Tate: Create valid wildcard SSL certificate for your domain for free with certbot!
+** https://youtu.be/3D4-MWG1Bew
+** https://docs.google.com/document/d/1m8FFTybu5VIYkRlWvqqFBsIO3a9GznbLkxZyyEI4vto/edit?usp=sharing
+
+* Hey Tate: Running OpenShift and routes locally with valid SSL certificate.
+** https://youtu.be/JvU5BWE5pS8
+** https://docs.google.com/document/d/1hk3yacNkDWHdcSJb7SOl_9wblVq_hvwlaoVK35P-EVQ/edit?usp=sharing
+
+
 == RH-SSO Deployment
 
 === Environment variables
