@@ -42,18 +42,18 @@ In particular, the RH-SSO variant that leverages OCP's link:https://access.redha
 
 
 === Assumptions and Pre-reqs
-. This ansible workload assumes the existence of a remote OCP 3.10 environment with a minimum of 5GB RAM.
+. Ensure that ansible is installed on your local machine.
++
+The version of ansible that this ansible role has been most recently tested on is:  2.6.5-1 on Fedora 29.
 
-. This ansible workload assumes that your pre-existing OCP cluster is configured with a certificate signed by a legitimate Certificate Authority (such as LetsEncrypt).
+. This ansible role assumes the existence of a remote OCP cluster with a minimum of 6GB RAM and 2 CPUs.
++
+The version of OCP that this ansible role has been most recently tested on is: 3.11.43.
 
-. The commands provided in this section make use of an `oc` client running on your local machine.
+. This Ansible role makes heavy use of an `oc` client running on your local machine.
 Ensure that this `oc` client is on the $PATH of your local environment and its version aligns with that of your OCP environment.
 
 . [blue]#The local oc client will need to already be authenticated to the remote OCP environment as a cluster-admin user.#
-
-. Ensure that the link:https://stedolan.github.io/jq/[jq] utility is installed on your machine.
-
-. Ensure that ansible is installed on your local machine.
 
 
 == RH-SSO Deployment
@@ -331,7 +331,6 @@ The json representation of each realm created can be found in the directory ment
 
 -----
 $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
-                    -e"ocp_workload=${WORKLOAD}" \
                     -e"ACTION=realm_mgmt" \
                     -e"first_generic_realm=$FIRST_GENERIC_REALM" \
                     -e"last_generic_realm=$LAST_GENERIC_REALM" \
@@ -444,6 +443,8 @@ The following utilities will need to be installed on your local machine:
 . `keytool` : (from the Java Development Kit)
 
 === OIDC well-known Endpoints
+
+. Ensure that the link:https://stedolan.github.io/jq/[jq] utility is installed on your machine.
 
 . Execute the following and study the response:
 +
