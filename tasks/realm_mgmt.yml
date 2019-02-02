@@ -76,7 +76,7 @@
         dest: "{{new_app_output_dir}}/ocp-realm-suggestion.txt"
         mode: 0755
     - name: "{{ realmId }}   Loop through user creation {{start_ocp_user}} {{end_ocp_user}}"
-      include: userCreate.yml
+      include: userPrep.yml
       loop: "{{ range(start_ocp_user|int, end_ocp_user|int + 1, 1)|list }}"
 
   when: loadOCPRealm|bool

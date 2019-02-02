@@ -1,0 +1,26 @@
+---
+
+- name: "{{ realmId }}      Create user prep {{ item }} "
+  template:
+    src: templates/generic-user.json
+    dest: "{{ new_app_output_dir }}/user.json"
+    mode: 0755
+- set_fact:
+    user_body: "{{ lookup('file', '{{ new_app_output_dir }}/user.json') }}"
+- debug:
+    msg: "user_body = {{ user_body }}"
+    verbosity: 1
+- block:
+    - include: userCreate.yml
+  rescue:
+    - debug:
+        msg: "create_user_response status = {{create_user_response.status}}"
+    - include: refreshOAuthTokens.yml
+      when: create_user_response.status == 401
+    - include: userCreate.yml
+      when: create_user_response.status == 401
+    - meta: end_play
+      when: create_user_response.status == 401
+
+- pause:
+    seconds: "{{user_create_loop_delay}}"

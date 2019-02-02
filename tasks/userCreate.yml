@@ -24,9 +24,5 @@
     return_content: yes
     body_format: json
   register: create_user_response
-
 - debug:
     msg: "{{ realmId }}  {{ item }}     create_user_response = {{ create_user_response }}"
-
-- pause:
-    seconds: "{{user_create_loop_delay}}"

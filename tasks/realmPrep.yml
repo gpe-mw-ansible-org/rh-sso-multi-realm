@@ -37,7 +37,7 @@
     - include: realmCreate.yml
       when: create_realm_response.status == 401
     - meta: end_play
-      when: create_realm_response.status != 401
+      when: create_realm_response.status == 401
   when: create_realms|bool
 
 #  ########################################################################################################## #
