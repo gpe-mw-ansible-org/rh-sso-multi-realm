@@ -1,5 +1,11 @@
+1)  As a cluster admin, make the "gpte-mgr" user a cluster admin
+-----
 
-1)  In the master node of your OCP deployment, add the following to the "IdentityProviders" section of the config file /etc/origin/master/master-config.yaml  :
+oc adm policy add-cluster-role-to-user cluster-admin gpte-mgr
+
+-----
+
+2)  In the master node of your OCP deployment, add the following to the "IdentityProviders" section of the config file /etc/origin/master/master-config.yaml  :
 
 -----
 
@@ -11,9 +17,9 @@
       clientID: ocp-client
       clientSecret: {{ ocp_client_secret }}
       urls:
-        authorize: {{ create_realm_url }}/{{ realmId }}/protocol/openid-connect/auth
-        token: {{ create_realm_url }}/{{ realmId }}/protocol/openid-connect/token
-        userInfo: {{ create_realm_url }}/{{ realmId }}/protocol/openid-connect/userinfo
+        authorize: {{rhsso_url}}/auth/realms/{{ realmId }}/protocol/openid-connect/auth
+        token: {{rhsso_url}}/auth/realms/{{ realmId }}/protocol/openid-connect/token
+        userInfo: {{rhsso_url}}/auth/realms/{{ realmId }}/protocol/openid-connect/userinfo
       claims:
         id:
         - sub
@@ -29,7 +35,7 @@
 
 
 
-2)  Bounce the master API server as follows:
+3)  Bounce the master API server as follows:
 
 -----
 
@@ -37,11 +43,11 @@
 
 -----
 
-
-
-3)  As a cluster admin, make the "gpte-mgr" user a cluster admin
+4) Review log files in the following directory of the master node if there are problems:
++
+-----
+ls -lt /var/log/containers/
 -----
 
-oc adm policy add-cluster-role-to-user cluster-admin gpte-mgr
 
------
+
