@@ -280,7 +280,10 @@ Details of this provisioned _ocp-realm_ are as follows:
 . *SSO Client:* ocp-client
 . *Admin User Id:* gpte-mgr
 . *Admin Passwd:* r3dh4t1!
-. *SSO user:* Configurable number of users associated with this realm are created as per the variables: `start_ocp_user` and `end_ocp_user`
+. *SSO users:* Configurable number of users associated with this realm are created as per the variables: `start_ocp_user` and `end_ocp_user`
++
+The name of each user of this realm will start with the value:  {{ocp_realm_user_base_name}}  (default = `ocp`)
+
 . *OCP related roles:*
 +
 None.  Roles must be assigned by a cluster admin .
