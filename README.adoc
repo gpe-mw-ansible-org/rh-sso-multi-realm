@@ -74,6 +74,8 @@ If interested, a very nice tutorial on acquiring a LetsEncrypt wildcard certific
 ** https://youtu.be/JvU5BWE5pS8
 ** https://docs.google.com/document/d/1hk3yacNkDWHdcSJb7SOl_9wblVq_hvwlaoVK35P-EVQ/edit?usp=sharing
 
+An alternative to a wildcard certificate for your entire OCP cluster could simply be to link:https://developers.redhat.com/blog/2019/02/06/using-a-public-certificate-with-red-hat-single-sign-on-keycloak/[secure the RH-SSO route with a LetsEncrypt] certificate. 
+
 
 == RH-SSO Deployment
 
