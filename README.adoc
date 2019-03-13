@@ -294,7 +294,7 @@ After provisioning of the `ocp-realm` in RH-SSO, there are some additional steps
 Details regarding these steps are detailed in : {{new_app_output_dir}}/ocp-realm-suggestion.txt
 
 
-==== Create Realms
+=== Create Realms
 
 
 . Set the following environment variables in your shell and then execute the ansible command as listed below:
