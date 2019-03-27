@@ -9,7 +9,9 @@ oc adm policy add-cluster-role-to-user cluster-admin gpte-mgr
 
 -----
 
-    name: rh_sso
+-   name: rh_sso
+    challenge: false
+    login: true
     mappingInfo: add
     provider:
       apiVersion: v1
