@@ -60,7 +60,11 @@ Ensure that this `oc` client is on the $PATH of your local environment and its v
 
 This ansible role assumes that your pre-existing OCP cluster is configured with a certificate signed by a legitimate Certificate Authority (such as LetsEncrypt).
 
-If interested, a very nice tutorial on acquiring a LetsEncrypt wildcard certificate and applying it to your OCP cluster can be found here:
+NOTE:  link:https://github.com/redhat-gpe/mw_docs/blob/master/ocp_cluster_workshop.adoc[OCP cluster workshops] aquired from Red Hat Partner Demo System (RHPDS) and Red Hat Open Partner Enablement Network (OPEN) come equipped with LetsEncrypt certificates.
+You can skip this section.
+
+
+A very nice tutorial on acquiring a LetsEncrypt wildcard certificate and applying it to your OCP cluster can be found here:
 
 * Hey Tate: How to purchase a domain name for valid SSL certs in your development systems.
 ** https://youtu.be/sBcDnQj9_QM
