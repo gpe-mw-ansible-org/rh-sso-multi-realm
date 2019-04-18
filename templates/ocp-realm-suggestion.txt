@@ -1,15 +1,14 @@
 1)  As a cluster admin, make the "gpte-mgr" user a cluster admin
 -----
-
 oc adm policy add-cluster-role-to-user cluster-admin gpte-mgr
-
 -----
+
 
 2)  In the master node of your OCP deployment, add the following to the "IdentityProviders" section of the config file /etc/origin/master/master-config.yaml  :
 
 -----
 
--   name: rh_sso
+  - name: rh_sso
     challenge: false
     login: true
     mappingInfo: add
@@ -38,17 +37,23 @@ oc adm policy add-cluster-role-to-user cluster-admin gpte-mgr
 
 
 3)  Bounce the master API server as follows:
-
 -----
-
 /usr/local/bin/master-restart api
-
 -----
+
 
 4) Review log files in the following directory of the master node if there are problems:
-+
 -----
 ls -lt /var/log/containers/
+-----
+
+5)  Authenticate into the OCP web console at https://master.{{subdomain_base}}:443 to retrieve a access token.
+Use credentials of:   gpte-mgr / r3dh4t1!
+
+
+6)  Follow the instructions provided to authenticate into OpenShift using this token.  ie:
+-----
+oc login --token=8fluPDm0p1oJoaIO59otgK-xdEWnTnS8uvfgHGFOBHA --server=https://master.{{subdomain_base}}:443
 -----
 
 

@@ -15,6 +15,9 @@
             "account":[
                "view-profile",
                "manage-account"
+            ],
+            "realm-management":[
+               "view-realm"
             ]
          },
          "groups":[

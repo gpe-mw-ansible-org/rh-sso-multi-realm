@@ -103,9 +103,10 @@ source ~/.bashrc
 
 
 #   OCP wildcard DNS after "apps";  ie; 2345.openshift.opentlc.com
-#   	oc cluster up vm:   SUBDOMAIN_BASE=clientvm.`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
-#   	ocp workshop    :   SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
-#   Execute the following:
+#   examples:
+#       oc cluster up vm:   SUBDOMAIN_BASE=clientvm.`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
+#       ravello vm      :   SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'-' -f 2 | cut -d':' -f 1`
+#       ocp workshop    :   SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
 echo "SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`" >> ~/.bashrc
 
 
