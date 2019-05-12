@@ -47,7 +47,7 @@ oc adm policy add-cluster-role-to-user cluster-admin gpte-mgr
 ls -lt /var/log/containers/
 -----
 
-5)  Authenticate into the OCP web console at https://master.{{subdomain_base}}:443 to retrieve a access token.
+5)  Authenticate into the OCP web console at the following URL to retrieve an access token:  https://master.{{subdomain_base}}:443/oauth/token/request
 Use credentials of:   gpte-mgr / r3dh4t1!
 
 
