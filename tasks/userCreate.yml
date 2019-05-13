@@ -23,6 +23,7 @@
     status_code: 201,409
     return_content: yes
     body_format: json
+    validate_certs: no
   register: create_user_response
 - debug:
     msg: "{{ realmId }}  {{ padded_item }}     create_user_response = {{ create_user_response }}"

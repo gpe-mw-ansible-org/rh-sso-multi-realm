@@ -11,6 +11,7 @@
       headers:
         Content-Type: "application/x-www-form-urlencoded"
       body: "grant_type=refresh_token&client_id={{sso_client_id}}&refresh_token={{RTKN}}"
+      validate_certs: no
     register: TKN
   - set_fact:
       ATKN: "{{TKN.json.access_token}}"
@@ -31,6 +32,7 @@
       status_code: 200
       return_content: yes
       body_format: json
+      validate_certs: no
     register: TKN
   - debug:
       msg: "raw token= {{TKN}}"

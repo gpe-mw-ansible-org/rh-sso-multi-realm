@@ -1,7 +1,7 @@
       {  
-         "username":"{{ocp_realm_user_base_name}}{{ item }}",
+         "username":"{{ocp_realm_user_base_name}}{{ padded_item }}",
          "enabled":true,
-         "email":"{{ocp_realm_user_base_name}}{{ item }}@openshift.opentlc.com",
+         "email":"{{ocp_realm_user_base_name}}{{ padded_item }}@openshift.opentlc.com",
          "credentials":[
             {  
                "type":"password",
