@@ -1,6 +1,6 @@
 ---
 
-- name: "{{ realmId }}      Create user prep {{ item }} "
+- name: "{{ realmId }}      Create user prep {{ padded_item }} "
   template:
     src: templates/generic-user.json
     dest: "{{ new_app_output_dir }}/user.json"
@@ -11,7 +11,7 @@
     msg: "user_body = {{ user_body }}"
     verbosity: 1
 
-- name: "{{ realmId }}      Create user {{ item }}"
+- name: "{{ realmId }}      Create user {{ padded_item }}"
   uri:
     url: "{{ create_user_url }}/{{realmId}}/users"
     method: POST
@@ -25,4 +25,4 @@
     body_format: json
   register: create_user_response
 - debug:
-    msg: "{{ realmId }}  {{ item }}     create_user_response = {{ create_user_response }}"
+    msg: "{{ realmId }}  {{ padded_item }}     create_user_response = {{ create_user_response }}"

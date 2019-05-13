@@ -1,6 +1,12 @@
 ---
 
-- name: "{{ realmId }}      Create user prep {{ item }} "
+# Padded sequence number
+- set_fact:
+    padded_item: "{{ '%02d'|format(item|int) }}"
+- debug:
+    msg: "{{ item }} padded to {{ padded_item }}"
+
+- name: "{{ realmId }}      Create user prep {{ padded_item }} "
   template:
     src: templates/generic-user.json
     dest: "{{ new_app_output_dir }}/user.json"
