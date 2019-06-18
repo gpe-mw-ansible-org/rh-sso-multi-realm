@@ -80,7 +80,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"test1234!"
+               "value":"admin1!"
             }
          ],
          "realmRoles":[
@@ -108,7 +108,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"test1234!"
+               "value":"admin1!"
             }
          ],
          "realmRoles":[
