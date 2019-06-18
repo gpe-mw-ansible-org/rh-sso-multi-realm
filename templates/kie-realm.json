@@ -108,14 +108,13 @@
          "credentials":[
             {
                "type":"password",
-               "value":"admin1!"
+               "value":"controller1!"
             }
          ],
          "realmRoles":[
-            "admin",
             "kie-server",
-            "kiemgmt",
-            "rest-all"
+            "rest-all",
+            "guest"
          ],
          "clientRoles":{
             "account":[
