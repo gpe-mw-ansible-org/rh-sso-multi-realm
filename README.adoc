@@ -117,7 +117,7 @@ echo "SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':'
 . Install this role locally
 +
 -----
-$ ansible-galaxy install gpe_mw_ansible.rh_sso_multi_realm --force
+$ ansible-galaxy install gpe_mw_ansible.rh_sso_multi_realm --force -p $HOME/.ansible/roles
 -----
 
 . Create Playbook:
