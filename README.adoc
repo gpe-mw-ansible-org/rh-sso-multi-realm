@@ -167,7 +167,7 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
 . Set an environment variable that references the URL of the newly provisioned RH-SSO:
 +
 -----
-echo "export rhsso_url=https://`oc get route sso -n rhsso-$ocp_sso_admin_id --template "{{.spec.host}}" -n rhsso-$ocp_sso_admin_id`" >> ~/.bashrc
+echo "export rhsso_url=`oc get route sso -n rhsso-$ocp_sso_admin_id --template "{{.spec.host}}" -n rhsso-$ocp_sso_admin_id`" >> ~/.bashrc
 
 source ~/.bashrc
 -----
@@ -194,7 +194,7 @@ issuer=C = US, O = Let's Encrypt, CN = Let's Encrypt Authority X3
 . If OCP cluster has been provisioned using LetsEncrypt (or some other legitimate) Certificate Authority and has been issued a wildcard certificate, you can view the details as follows:
 +
 -----
-$ curl -v -X GET "$rhsso_url/auth/realms/master/.well-known/openid-configuration" | python -m json.tool
+$ curl -v -X GET "https://$rhsso_url/auth/realms/master/.well-known/openid-configuration" | python -m json.tool
 
 ...
 
@@ -205,7 +205,7 @@ $ curl -v -X GET "$rhsso_url/auth/realms/master/.well-known/openid-configuration
 . Open a web browser and navigate to the console of the `master` realm :
 +
 -----
-$ echo -en "\n$rhsso_url/auth/admin/master/console\n\n"
+$ echo -en "\nhttps://$rhsso_url/auth/admin/master/console\n\n"
 -----
 
 . Authenticate using the values of the $SSO_SITE_ADMIN_USERNAME and $SSO_SITE_ADMIN_PASSWORD environment variables used when the RH-SSO instance was provisioned.
@@ -264,7 +264,7 @@ If when creating realms the variable _loadKieRealm_ is set to true, then a speci
 Details of this provisioned _kie-realm_ are as follows:
 
 . *realmId:*  kie-realm
-. *Login URL:* $rhsso_url/auth/admin/kie-realm/console
+. *Login URL:* https://$rhsso_url/auth/admin/kie-realm/console
 . *Admin User Id:* admin
 . *Admin Passwd:* admin1234
 . *KIE related roles:*
@@ -283,7 +283,7 @@ Its purpose is to serve as an link:https://access.redhat.com/documentation/en-us
 Details of this provisioned _ocp-realm_ are as follows:
 
 . *realmId:*  ocp-realm
-. *Login URL:* $rhsso_url/auth/admin/ocp-realm/console
+. *Login URL:* https://$rhsso_url/auth/admin/ocp-realm/console
 . *SSO Client:* ocp-client
 . *Admin User Id:* gpte-mgr
 . *Admin Passwd:* r3dh4t1!
@@ -394,7 +394,7 @@ $ source ~/.bashrc
 . Open a web browser and navigate to the console of your target realm :
 +
 -----
-$ echo -en "\n$rhsso_url/auth/admin/$rhsso_realm/console\n\n"
+$ echo -en "\nhttps://$rhsso_url/auth/admin/$rhsso_realm/console\n\n"
 -----
 
 . Click the `Register` link:
@@ -478,7 +478,7 @@ The following utilities will need to be installed on your local machine:
 . Execute the following and study the response:
 +
 -----
-$ curl -X GET "$rhsso_url/auth/realms/$rhsso_realm/.well-known/openid-configuration" | python -m json.tool
+$ curl -X GET "https://$rhsso_url/auth/realms/$rhsso_realm/.well-known/openid-configuration" | python -m json.tool
 -----
 
 * The various OpenID Connect `Relying Party` clients invoke these Red Hat SSO endpoints throughout the remainder of this lab.
@@ -489,7 +489,7 @@ $ curl -X GET "$rhsso_url/auth/realms/$rhsso_realm/.well-known/openid-configurat
 . View the list of `grant_types_supported` types:
 +
 -----
-$ curl -X GET "$rhsso_url/auth/realms/$rhsso_realm/.well-known/openid-configuration" | jq -r '.grant_types_supported'
+$ curl -X GET "https://$rhsso_url/auth/realms/$rhsso_realm/.well-known/openid-configuration" | jq -r '.grant_types_supported'
 -----
 +
 .Sample Output
@@ -512,7 +512,7 @@ $ curl -X GET "$rhsso_url/auth/realms/$rhsso_realm/.well-known/openid-configurat
 . Retrieve OIDC Access Token from a realm:
 +
 -----
-$ retrieve_token_url="$rhsso_url/auth/realms/$rhsso_realm/protocol/openid-connect/token"
+$ retrieve_token_url="https://$rhsso_url/auth/realms/$rhsso_realm/protocol/openid-connect/token"
 
 $ TKN=$(curl -X POST "$retrieve_token_url" \
             -H "Content-Type: application/x-www-form-urlencoded" \
@@ -537,7 +537,7 @@ Keycloak currently only supports RSA signatures so there is only one active keyp
 . Set the value of $retrieve_key_url environemnt variable:
 +
 -----
-$ retrieve_key_url="$rhsso_url/auth/admin/realms/$rhsso_realm/keys"
+$ retrieve_key_url="https://$rhsso_url/auth/admin/realms/$rhsso_realm/keys"
 -----
 
 . Retrieve value of RSA key:
@@ -668,7 +668,7 @@ $ echo "
 {
   \"realm\": \"$rhsso_realm\",
   \"bearer-only\": \"true\",
-  \"auth-server-url\": \"$rhsso_url/auth\",
+  \"auth-server-url\": \"http://$rhsso_url/auth\",
   \"ssl-required\": \"external\",
   \"realm-public-key\": \"$RSA_PUB_KEY\",
   \"resource\": \"realm-management\",

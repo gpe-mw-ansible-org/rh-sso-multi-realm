@@ -18,9 +18,9 @@ oc adm policy add-cluster-role-to-user cluster-admin gpte-mgr
       clientID: ocp-client
       clientSecret: {{ ocp_client_secret }}
       urls:
-        authorize: {{rhsso_url}}/auth/realms/{{ realmId }}/protocol/openid-connect/auth
-        token: {{rhsso_url}}/auth/realms/{{ realmId }}/protocol/openid-connect/token
-        userInfo: {{rhsso_url}}/auth/realms/{{ realmId }}/protocol/openid-connect/userinfo
+        authorize: https://{{rhsso_url}}/auth/realms/{{ realmId }}/protocol/openid-connect/auth
+        token: https://{{rhsso_url}}/auth/realms/{{ realmId }}/protocol/openid-connect/token
+        userInfo: https://{{rhsso_url}}/auth/realms/{{ realmId }}/protocol/openid-connect/userinfo
       claims:
         id:
         - sub
