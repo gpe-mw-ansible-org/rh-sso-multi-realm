@@ -1,0 +1,38 @@
+---
+kind: List
+apiVersion: v1
+items:
+- kind: Route
+  apiVersion: v1
+  id: "{{ kieserver_application_name }}-https"
+  metadata:
+    name: {{ kieserver_application_name }}
+    labels:
+      app: "{{ application_name }}"
+      service: "{{ kieserver_application_name }}"
+  spec:
+    to:
+      name: {{ kieserver_application_name }}
+    port:
+      targetPort: http
+    tls:
+      termination: edge
+- kind: Service
+  apiVersion: v1
+  spec:
+    ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+    - name: https
+      port: 8443
+      targetPort: 8443
+    selector:
+      deploymentConfig: "{{ kieserver_application_name }}"
+  metadata:
+    name: "{{ kieserver_application_name }}"
+    labels:
+      app: "{{ application_name }}"
+      service: "{{ kieserver_application_name }}"
+
+
