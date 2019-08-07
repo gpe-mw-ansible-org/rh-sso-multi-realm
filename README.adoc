@@ -78,7 +78,7 @@ A very nice tutorial on acquiring a LetsEncrypt wildcard certificate and applyin
 ** https://youtu.be/JvU5BWE5pS8
 ** https://docs.google.com/document/d/1hk3yacNkDWHdcSJb7SOl_9wblVq_hvwlaoVK35P-EVQ/edit?usp=sharing
 
-An alternative to a wildcard certificate for your entire OCP cluster could simply be to link:https://developers.redhat.com/blog/2019/02/06/using-a-public-certificate-with-red-hat-single-sign-on-keycloak/[secure the RH-SSO route with a LetsEncrypt] certificate. 
+An alternative to a wildcard certificate for your entire OCP cluster could simply be to link:https://developers.redhat.com/blog/2019/02/06/using-a-public-certificate-with-red-hat-single-sign-on-keycloak/[secure the RH-SSO route with a LetsEncrypt] certificate.
 
 
 == RH-SSO Deployment
@@ -107,8 +107,8 @@ source ~/.bashrc
 #       oc cluster up vm:   SUBDOMAIN_BASE=clientvm.`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
 #       ravello vm      :   SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'-' -f 2 | cut -d':' -f 1`
 #       ocp workshop    :   SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
-echo "SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`" >> ~/.bashrc
-
+echo "export SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`" >> ~/.bashrc
+source ~/.bashrc
 
 -----
 
@@ -590,7 +590,7 @@ $ openssl x509 -in $realm_cert -text -noout
 === Overview of secured business service
 
 Very often, services need identity information about the end user invoking its functionality.
-One common use case is the need for role-based access control (RBAC). 
+One common use case is the need for role-based access control (RBAC).
 Based on the end user's role, the business service determines whether to grant access to the resource being invoked.
 
 NOTE: This RBAC handled by the back-end business service is different than _policy_ and _rate limit_ enforcement that is handled by an API Manager.
