@@ -297,6 +297,7 @@ None.  Roles must be assigned by a cluster admin .
 
 After provisioning of the `ocp-realm` in RH-SSO, there are some additional steps to execute in the master node of OCP.
 Details regarding these steps are detailed in : {{new_app_output_dir}}/ocp-realm-suggestion.txt
+In the *IdentityProvider* section of the `master-config.xml` file, remember to override the *htpasswd* section with the *ocp-client* settings.
 
 
 === Create Realms
