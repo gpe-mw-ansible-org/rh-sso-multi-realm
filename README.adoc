@@ -384,7 +384,7 @@ The purpose of this section is to provide students with instructions that detail
 This entire section can be copy-n-pasted into the lab instructions of a course that leverages this multi-realm RH-SSO.
 
 
-. Set an environment variable that corresponds to a specific realm that you want to utilize:
+. Set an environment variable that corresponds to a specific realm (eg. <realm name> = realm1...realm20) that you want to utilize:
 +
 -----
 $ echo "export rhsso_realm=<realm name>" >> ~/.bashrc
