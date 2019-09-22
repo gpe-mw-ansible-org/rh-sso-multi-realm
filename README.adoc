@@ -114,11 +114,18 @@ source ~/.bashrc
 
 === Ansible Set-up
 
-. Install this role locally
+. Install this role:
++
+-----
+$ ansible-galaxy install gpe_mw_ansible.rh_sso_multi_realm --force -p /etc/ansible/roles
+-----
++
+* Alternatively, you can also installing the role locally likewise:
 +
 -----
 $ ansible-galaxy install gpe_mw_ansible.rh_sso_multi_realm --force -p $HOME/.ansible/roles
 -----
+
 
 . Create Playbook:
 +
