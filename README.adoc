@@ -114,11 +114,18 @@ source ~/.bashrc
 
 === Ansible Set-up
 
-. Install this role locally
+. Install this role:
++
+-----
+$ ansible-galaxy install gpe_mw_ansible.rh_sso_multi_realm --force -p /etc/ansible/roles
+-----
++
+* Alternatively, you can also installing the role locally likewise:
 +
 -----
 $ ansible-galaxy install gpe_mw_ansible.rh_sso_multi_realm --force -p $HOME/.ansible/roles
 -----
+
 
 . Create Playbook:
 +
@@ -368,6 +375,7 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"SSO_SITE_ADMIN_USERNAME=$SSO_SITE_ADMIN_USERNAME" \
                     -e"SSO_SITE_ADMIN_PASSWORD=$SSO_SITE_ADMIN_PASSWORD" \
                     -e"admin_username=$ocp_sso_admin_id" \
+                    -e"rhsso_url=$rhsso_url" \
                     -e"create_realms=false"
 
 -----
@@ -797,8 +805,8 @@ Doing so is beneficial when attempting to troubleshoot problems with security pr
 . Open a remote shell session to your RH-SSO pod:
 +
 -----
-$ oc rsh -n $rhsso-project \
-            $(oc get pod -n $rhsso-project | egrep "sso-[1-9]" | awk '{print $1}')
+$ oc rsh -n $rhsso_project \
+            $(oc get pod -n $rhsso_project | egrep "sso-[1-9]" | awk '{print $1}')
 -----
 
 . Edit the master configuration file for your RH-SSO server:
