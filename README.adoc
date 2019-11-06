@@ -302,10 +302,6 @@ The name of each user of this realm will start with the value:  {{ocp_realm_user
 +
 None.  Roles must be assigned by a cluster admin .
 
-After provisioning of the `ocp-realm` in RH-SSO, there are some additional steps to execute in the master node of OCP.
-Details regarding these steps are detailed in : {{new_app_output_dir}}/ocp-realm-suggestion.txt
-In the *IdentityProvider* section of the `master-config.xml` file, remember to override the *htpasswd* section with the *ocp-client* settings.
-
 
 === Create Realms
 
@@ -380,9 +376,23 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
 
 -----
 
+====    Configuring OpenID Identity Provider
 
+After provisioning of the `ocp-realm` in RH-SSO, there are some additional steps to execute in the master node of OCP.
 
+. View the contents of the file {{new_app_output_dir}}/`ocp-realm-suggestion.txt`
 
+. Scroll to the section *In the master node of your OCP deployment, add the following*.
+
+. In the *IdentityProvider* section of the `master-config.xml` file, remember to override the *htpasswd* section with the *ocp-client* settings.
+
+. After the Master API service of the OCP cluster has been restarted, follow the remaining instructions in `ocp-realm-suggestion.txt` to retrieve the access token.
+
+[NOTE]
+Should you encounter an error page indicating an incorrect redirect URI, logon to the RH-SSO Admin Console, navigate to the `ocp-realm` and change the value of the *Valid Direct URIs* setting in the client called `ocp-client` to the correct value.
+For instance, the redirect URI should be in such a format:
+
+image::images/valid-redirect-url.png[]
 
 
 == Generic Realms: User Registration
