@@ -68,11 +68,11 @@ last_generic_realm: 20
 loadKieRealm: false
 
 # OCP Realm
-loadOCPRealm: true
+loadOCPRealm: false
 ocp_client_secret: 1bd2abc31ccd4c881a57345de2af
 start_ocp_user: 1
-end_ocp_user: 20
+end_ocp_user: 30
 user_create_loop_delay: 2
-ocp_realm_user_base_name: ocp
+ocp_realm_user_base_name: dplane
 
 #########################################################
