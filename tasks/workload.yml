@@ -34,20 +34,20 @@
 ### RH-SSO Setup
 
 - name: Create SSO Service Account
-  shell: "oc create serviceaccount sso-service-account -n {{ocp_project}}"
+  shell: "oc create serviceaccount sso-service-account -n {{ ocp_project }}"
 
 - name: Give service account access to Lab Infra project
-  shell: "oc policy add-role-to-user view system:serviceaccount:{{ocp_project}}:sso-service-account"
+  shell: "oc policy add-role-to-user view system:serviceaccount:{{ ocp_project }}:sso-service-account"
 
 - name: Create RHSSO app
   shell: |
        oc new-app \
-           --template={{rhsso_template_name}} \
-           --param=SSO_ADMIN_USERNAME={{SSO_SITE_ADMIN_USERNAME}} \
-           --param=SSO_ADMIN_PASSWORD={{SSO_SITE_ADMIN_PASSWORD}} \
+           --template={{ rhsso_template_name }} \
+           --param=SSO_ADMIN_USERNAME={{ SSO_SITE_ADMIN_USERNAME }} \
+           --param=SSO_ADMIN_PASSWORD={{ SSO_SITE_ADMIN_PASSWORD }} \
            --param=MEMORY_LIMIT=2Gi \
-           -n {{ocp_project}} \
-           > {{work_dir}}/sso_provision.txt
+           -n {{ ocp_project }} \
+           > {{ work_dir }}/sso_provision.txt
 
 - pause:
     seconds: 5

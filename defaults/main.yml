@@ -42,7 +42,7 @@ ocp_project: "rhsso-{{admin_username}}"
 work_dir: "/tmp/{{ocp_project}}"
 
 sso_client_id: 'admin-cli'
-rhsso_template_name: sso72-x509-mysql-persistent
+rhsso_template_name: sso73-x509-mysql-persistent
 SSO_SITE_ADMIN_USERNAME: master
 SSO_SITE_ADMIN_PASSWORD: 'master'
 SSO_HOSTNAME_HTTP: "{{ocp_project}}.{{ocp_apps_domain}}"

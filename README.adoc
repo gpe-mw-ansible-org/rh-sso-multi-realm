@@ -525,8 +525,8 @@ $ retrieve_token_url="https://$rhsso_url/auth/realms/$rhsso_realm/protocol/openi
 
 $ TKN=$(curl -X POST "$retrieve_token_url" \
             -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "username=$realmUserId" \
-            -d "password=$realmPasswd" \
+            -d "username=$SSO_SITE_ADMIN_USERNAME" \
+            -d "password=$SSO_SITE_ADMIN_PASSWORD" \
             -d "grant_type=password" \
             -d "client_id=admin-cli" \
             | sed 's/.*access_token":"//g' | sed 's/".*//g')
