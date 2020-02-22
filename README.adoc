@@ -36,6 +36,7 @@ In particular, the RH-SSO variant that leverages OCP's link:https://access.redha
 
 NOTE:  This Ansible role does not yet make use of the link:https://github.com/keycloak/keycloak-operator[Keycloak-operator].
 Primarily because of inability to configure health checks and limits and requests in the current implementation of the operator as described link:https://keycloak.discourse.group/t/various-issues-with-keycloak-operator/845[here].
+The list of currently open jiras related to the operator is link:https://issues.redhat.com/browse/KEYCLOAK-13065?jql=project%20%3D%20KEYCLOAK%20AND%20component%20%3D%20%22Containers%20-%20Operator%22[here].
 
 === Reference
 
