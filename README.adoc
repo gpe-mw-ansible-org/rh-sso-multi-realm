@@ -34,6 +34,9 @@ In particular, the RH-SSO variant that leverages OCP's link:https://access.redha
 .. Integration with an external smtp provider to send out emails and facilitate a user self-registration workflow.
 .. Invocation of the REST Admin API of RH-SSO using OAuth2 _access_ and _refresh_ tokens.
 
+NOTE:  This Ansible role does not yet make use of the link:https://github.com/keycloak/keycloak-operator[Keycloak-operator].
+Primarily because of inability to configure health checks and limits and requests in the current implementation of the operator as described link:https://keycloak.discourse.group/t/various-issues-with-keycloak-operator/845[here].
+
 === Reference
 
 . link:https://www.keycloak.org/documentation.html[Latest keycloak documentation]
