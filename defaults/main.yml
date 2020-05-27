@@ -31,24 +31,35 @@ quota_requests_storage: 50Gi
 admin_username: sso0
 
 subdomain_base: overrideme
-ocp_apps_domain: "apps.{{subdomain_base}}"
+
+# Typically for RHPDS environments
+ocp_apps_domain: "apps.{{ subdomain_base }}"
+
+# Typically for CRC 
+# ocp_apps_domain: "apps-{{ subdomain_base }}"
 
 deploy_status_retries: 15
 deploy_status_delay: 30
 
 shared_ns: shared-opentlc
 
-ocp_project: "rhsso-{{admin_username}}"
-work_dir: "/tmp/{{ocp_project}}"
+ocp_project: "rhsso-{{ admin_username }}"
+work_dir: "/tmp/{{ ocp_project }}"
+rhsso_url: "sso-{{ ocp_project }}.{{ ocp_apps_domain }}"
+
+rhsso_template_name: sso74-x509-postgresql-persistent
+rhsso_template_url: "https://raw.githubusercontent.com/jboss-container-images/redhat-sso-7-openshift-image/v7.4.0.GA/templates/{{ rhsso_template_name }}.json"
+modified_template_path: "{{work_dir}}/rh-sso.json"
 
 sso_client_id: 'admin-cli'
-rhsso_template_name: sso73-x509-mysql-persistent
 SSO_SITE_ADMIN_USERNAME: master
 SSO_SITE_ADMIN_PASSWORD: 'master'
-SSO_HOSTNAME_HTTP: "{{ocp_project}}.{{ocp_apps_domain}}"
-SSO_HOSTNAME_HTTPS: "secure-{{ocp_project}}.{{ocp_apps_domain}}"
+SSO_HOSTNAME_HTTP: "{{ ocp_project }}.{{ ocp_apps_domain }}"
+SSO_HOSTNAME_HTTPS: "secure-{{ ocp_project }}.{{ ocp_apps_domain }}"
+POSTGRESQL_IMAGE_STREAM_TAG: 10
 
-new_app_output_dir: "{{ lookup('env','HOME') }}/provisioning_output/{{subdomain_base}}"
+new_app_output_dir: "{{ lookup('env','HOME') }}/provisioning_output/{{ subdomain_base }}"
+
 ########################################################
 
 
@@ -60,15 +71,23 @@ realm_base_name: realm
 realm_provisioning_log_file: realm_provisioning.log
 realm_create_delay: 4
 
+smtp_host:
+smtp_userid:
+smtp_passwd:
+
 # Generic Realms
 first_generic_realm: 1
-last_generic_realm: 20
+last_generic_realm: 0
 
 # KIE Realm
 loadKieRealm: false
 
+# CRW Realm
+loadCRWRealm: false
+crw_realm_id: crw-realm
+
 # OCP Realm
-loadOCPRealm: true
+loadOCPRealm: false
 ocp_client_secret: 1bd2abc31ccd4c881a57345de2af
 start_ocp_user: 1
 end_ocp_user: 20

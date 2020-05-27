@@ -1,6 +1,5 @@
 {
-   "id":"kie-realm",
-   "realm":"kie-realm",
+   "realm":"{{ realmId }}",
    "notBefore":0,
    "revokeRefreshToken":false,
    "refreshTokenMaxReuse":0,
@@ -1398,17 +1397,17 @@
       "strictTransportSecurity":"max-age=31536000; includeSubDomains"
    },
    "smtpServer": {
-    "password": "{{smtp_passwd}}",
+    "password": "{{ smtp_passwd }}",
     "replyToDisplayName": "rhtgpte_donotreply@redhat.com",
     "starttls": "true",
     "auth": "true",
     "port": "587",
-    "host": "{{smtp_host}}",
+    "host": "{{ smtp_host }}",
     "replyTo": "rhtgpte_donotreply@redhat.com",
     "from": "rhtgpte-admins@redhat.com",
-    "fromDisplayName": "{{realmId}} Admin",
+    "fromDisplayName": "{{ realmId }} Admin",
     "ssl": "",
-    "user": "{{smtp_userid}}"
+    "user": "{{ smtp_userid }}"
   },
    "eventsEnabled":false,
    "eventsListeners":[

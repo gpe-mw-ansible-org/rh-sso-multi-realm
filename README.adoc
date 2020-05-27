@@ -108,9 +108,9 @@ source ~/.bashrc
 
 #   OCP wildcard DNS after "apps";  ie; 2345.openshift.opentlc.com
 #   examples:
-#       oc cluster up vm:   SUBDOMAIN_BASE=clientvm.`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
-#       ravello vm      :   SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'-' -f 2 | cut -d':' -f 1`
-#       ocp workshop    :   SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
+#       Code Ready Containers:   SUBDOMAIN_BASE=crc.testing
+#       ravello vm           :   SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'-' -f 2 | cut -d':' -f 1`
+#       ocp workshop         :   SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`
 echo "export SUBDOMAIN_BASE=`oc whoami --show-server | cut -d'.' -f 2,3,4,5 | cut -d':' -f 1`" >> ~/.bashrc
 source ~/.bashrc
 
@@ -149,17 +149,13 @@ $ echo "
 The OCP namespace for the RH-SSO multi-realm application will be owned by the following user: {{ocp_sso_admin_id}}.
 A user called {{ocp_sso_admin_id}} will be assigned a clusterquota so as to manage limits and requests assigned to 3scale
 
-. Ensure ImageStream and Templates are in `openshift` namespace:
-.. *redhat-sso72-openshift* image streams.  Execute the following if these image streams do not exist in the `openshift` namespace:
+. Ensure ImageStream is in `openshift` namespace:
+.. *redhat-sso73-openshift* image stream.
++
+Execute the following if this image stream does not exist in the `openshift` namespace:
 +
 -----
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/redhat-sso-7-openshift-image/rh-sso-7.2-v1.3.0/templates/sso72-image-stream.json -n openshift
------
-
-.. *sso72-x509-mysql-persistent* template. Execute the following if this template does not exist in the `openshift` namespace:
-+
------
-$ oc create -f https://raw.githubusercontent.com/jboss-container-images/redhat-sso-7-openshift-image/rh-sso-7.2-v1.3.0/templates/sso72-x509-mysql-persistent.json -n openshift
+$ oc create -f https://raw.githubusercontent.com/jboss-container-images/redhat-sso-7-openshift-image/v7.4.0.GA/templates/sso74-image-stream.json -n openshift
 -----
 
 . Execute:
@@ -178,7 +174,7 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
 . Set an environment variable that references the URL of the newly provisioned RH-SSO:
 +
 -----
-echo "export rhsso_url=`oc get route sso -n rhsso-$ocp_sso_admin_id --template "{{.spec.host}}" -n rhsso-$ocp_sso_admin_id`" >> ~/.bashrc
+echo "export rhsso_url=$(oc get route sso -n rhsso-$ocp_sso_admin_id --template "{{.spec.host}}" -n rhsso-$ocp_sso_admin_id)" >> ~/.bashrc
 
 source ~/.bashrc
 -----
@@ -238,9 +234,13 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
 [[realm_mgmt]]
 == Realm Creation / Deletion
 
+RH-SSO allows for multiple realms to be created.
+Each realm is fully autonomous from all other realms.
+
+This section of the install assists in the automated creation of realms for various use-cases.
 
 ==== SMTP Providers
-It's likely that you will want  RH-SSO to have the ability to send emails.
+It's likely that you will want the realms of your RH-SSO to have the ability to send emails.
 As an example, the `generic realms` configured as part of this ansible role are configured for a user sign-up flow that requires the new user to verify signup via a link provided in an email.
 
 In RH-SSO, smtp settings are configured at within the scope of a _realm_.
@@ -259,7 +259,7 @@ A few SMTP providers with _Free Plans_ that this ansible role has been tested wi
 
 === Generic Realms
 
-A configurable number of SSO realms can be created based on the value of the following variables: `first_generic_realm` and `last_generic_realm`.
+Via this ansible, a configurable number of SSO realms can be created based on the value of the following variables: `first_generic_realm` and `last_generic_realm`.
 
 If the value of `last_generic_realm` is less than 1, then generic realms will not be created.
 
@@ -284,11 +284,19 @@ Details of this provisioned _kie-realm_ are as follows:
 .. kiemgmt
 .. rest-all
 
+=== CRW Realm
+If when creating realms the variable _loadCRWRealm_ is set to true, then a special realm specific to supporting Code Ready Workspaces will be created.
 
+Details of this provisioned _crw-realm_
+
+. *realmId:*  crw-realm
+. *Login URL:* https://$rhsso_url/auth/admin/crw-realm/console
+. *Admin User Id:* admin
+. *Admin Passwd:* admin1234
 
 === OpenShift Realm
 
-If when creating realms the variable _loadOCPRealm_ is set to true, then a realm called `ocp-realm` will be created.
+If when creating realms the variable _loadOCPRealm_ is set to true, then a realm called `ocp-realm` will be created in your RH-SSO.
 Its purpose is to serve as an link:https://access.redhat.com/documentation/en-us/red_hat_jboss_middleware_for_openshift/3/html/red_hat_single_sign-on_for_openshift/tutorials#OSE-SSO-AUTH-TUTE[IdentityProvider for authentication to OCP]  .
 
 Details of this provisioned _ocp-realm_ are as follows:
@@ -328,14 +336,14 @@ realm_base_name=realm       # base name of your generic realms.  Default is simp
 
 loadKieRealm=false          # default is false. If true, then will initialize a realm utilized to support Red Hat Process Automation and Decision Manager installations
 
-loadOCPRealm=true           # default is true. If true, then will configure a realm called ocp-realm that can be used to configure OCP to leverage RH-SSO for authentication
+loadCRWRealm=false          # default is false. If true, then a realm will be initialized to support Red Hat Code Ready Workspaces
+
+loadOCPRealm=true           # default is false. If true, then will configure a realm called ocp-realm that can be used to configure OCP to leverage RH-SSO for authentication
 end_ocp_user=1              # last user to be created in ocp-realm will be:  user$end_ocp_user
 
 $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"ACTION=realm_mgmt" \
-                    -e"first_generic_realm=$FIRST_GENERIC_REALM" \
-                    -e"last_generic_realm=$LAST_GENERIC_REALM" \
-                    -e"realm_base_name=$realm_base_name" \
+                    -e"create_realms=true" \
                     -e"subdomain_base=$SUBDOMAIN_BASE" \
                     -e"smtp_host=$smtp_host" \
                     -e"smtp_passwd=$smtp_passwd" \
@@ -343,11 +351,14 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"SSO_SITE_ADMIN_USERNAME=$SSO_SITE_ADMIN_USERNAME" \
                     -e"SSO_SITE_ADMIN_PASSWORD=$SSO_SITE_ADMIN_PASSWORD" \
                     -e"admin_username=$ocp_sso_admin_id" \
+                    -e"first_generic_realm=$FIRST_GENERIC_REALM" \
+                    -e"last_generic_realm=$LAST_GENERIC_REALM" \
+                    -e"realm_base_name=$realm_base_name" \
                     -e"loadKieRealm=$loadKieRealm" \
+                    -e"loadCRWRealm=$loadCRWRealm" \
                     -e"loadOCPRealm=$loadOCPRealm" \
                     -e"end_ocp_user=$end_ocp_user" \
-                    -e"rhsso_url=$rhsso_url" \
-                    -e"create_realms=true"
+                    -e"rhsso_url=$rhsso_url"
 
 -----
 

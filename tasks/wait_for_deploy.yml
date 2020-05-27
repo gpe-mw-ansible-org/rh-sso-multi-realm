@@ -11,6 +11,10 @@
 #  Documentation pertaining to jq syntax:
 #    - http://jmespath.org/tutorial.html
 
+
+- name: pause for a few seconds to allow DC to be initialized in kubernetes
+  pause:
+    seconds: 5
  
 - name: "Wait for following deployments to become ready: {{pod_to_wait}}"
   command: 'oc get rc -o json -n "{{ ocp_project }}"'

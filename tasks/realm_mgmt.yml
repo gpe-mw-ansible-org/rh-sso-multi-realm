@@ -34,21 +34,41 @@
         realmId: 'kieRealm'
     - template:
         src: templates/kie-realm.json
-        dest: "{{new_app_output_dir}}/kie-realm.json"
+        dest: "{{ new_app_output_dir }}/kie-realm.json"
         mode: 0755
     - set_fact:
-         realm_body: "{{ lookup('file', '{{new_app_output_dir}}/kie-realm.json' ) }}"
+         realm_body: "{{ lookup('file', '{{ new_app_output_dir }}/kie-realm.json' ) }}"
     - debug:
-        msg: "realm_body = {{realm_body}}"
+        msg: "realm_body = {{ realm_body }}"
         verbosity: 1
-    - include: realmCreate.yml realmId="{{realmId}}"
+    - include: realmCreate.yml realmId="{{ realmId }}"
     - debug:
-        msg: "kie-realm.json      create_realm_response = {{create_realm_response}}"
+        msg: "kie-realm.json      create_realm_response = {{ create_realm_response }}"
   when: loadKieRealm|bool
+
+# 4) Load realm to facilitate Code Ready Workspaces
+- block:
+    - name: "Load realm to facilitate Code Ready Workspaces"
+      set_fact:
+        realmId: "{{ crw_realm_id }}"
+    - template:
+        src: templates/crw-realm.json
+        dest: "{{ new_app_output_dir }}/{{ crw_realm_id }}.json"
+        mode: 0755
+    - set_fact:
+         realm_body: "{{ lookup('file', '{{ new_app_output_dir }}/{{ crw_realm_id }}.json' ) }}"
+    - debug:
+        msg: "realm_body = {{ realm_body }}"
+        verbosity: 1
+    - include: realmCreate.yml realmId="{{ realmId }}"
+    - debug:
+        msg: "{{ crw_realm_id }}.json      create_realm_response = {{ create_realm_response }}"
+  when: loadCRWRealm|bool
+
 
 
 - pause:
-    seconds: "{{realm_create_delay}}"
+    seconds: "{{ realm_create_delay }}"
 
 
 # 4) Configure OCP to use RH-SSO for Authentication
@@ -64,18 +84,18 @@
         dest: "{{new_app_output_dir}}/ocp-realm.json"
         mode: 0755
     - set_fact:
-         realm_body: "{{ lookup('file', '{{new_app_output_dir}}/ocp-realm.json' ) }}"
+         realm_body: "{{ lookup('file', '{{ new_app_output_dir }}/ocp-realm.json' ) }}"
     - debug:
-        msg: "{{ realmId }}  realm_body = {{realm_body}}"
+        msg: "{{ realmId }}  realm_body = {{ realm_body }}"
         verbosity: 1
-    - include: realmCreate.yml realmId="{{realmId}}"
+    - include: realmCreate.yml realmId="{{ realmId }}"
     - debug:
-        msg: "ocp-realm.json      create_realm_response = {{create_realm_response}}"
+        msg: "ocp-realm.json      create_realm_response = {{ create_realm_response }}"
     - template:
         src: templates/ocp-realm-suggestion.txt
-        dest: "{{new_app_output_dir}}/ocp-realm-suggestion.txt"
+        dest: "{{ new_app_output_dir }}/ocp-realm-suggestion.txt"
         mode: 0755
-    - name: "{{ realmId }}   Loop through user creation {{start_ocp_user}} {{end_ocp_user}}"
+    - name: "{{ realmId }}   Loop through user creation {{ start_ocp_user }} {{ end_ocp_user }}"
       include: userPrep.yml
       loop: "{{ range(start_ocp_user|int, end_ocp_user|int + 1, 1)|list }}"
 
@@ -87,8 +107,8 @@
 - name: Realm Rollout Complete
   debug:
     msg:
-      - "create_realms: {{create_realms}}"
-      - "new_app_output_dir:  {{new_app_output_dir}}"
-      - "realm_management_log_file = {{new_app_output_dir}}/{{realm_provisioning_log_file}}"
-      - "start and end realms = {{first_generic_realm}}  {{last_generic_realm}}"
-      - "ocp realm details :   {{new_app_output_dir}}/ocp-realm-suggestion.txt"
+      - "create_realms: {{ create_realms }}"
+      - "new_app_output_dir:  {{ new_app_output_dir }}"
+      - "realm_management_log_file = {{ new_app_output_dir }}/{{ realm_provisioning_log_file }}"
+      - "start and end realms = {{ first_generic_realm }}  {{ last_generic_realm }}"
+      - "ocp realm details :   {{ new_app_output_dir }}/ocp-realm-suggestion.txt"

@@ -1,7 +1,17 @@
 ---
+- name: Ensure {{ work_dir }} exists
+  file:
+    path: "{{ work_dir }}"
+    state: directory
 
-- name: "Create project for workload {{ocp_project}}"
-  shell: "oc new-project {{ocp_project}}"
+
+- name: "Create project for workload {{ ocp_project }}"
+  template:
+    src: "templates/project.yml"
+    dest: "{{ work_dir }}/project.yml"
+- k8s:
+    state: present
+    src: "{{ work_dir }}/project.yml"
 
 - name: Make sure we go back to default project
   shell: "oc project default"
@@ -9,35 +19,52 @@
 
 ### LimitRange
 ###     RH-SSO template only allows for specifying RAM for SSO deployment config.
-###     Limits and requests for mysql dc are not defined and subsequently are subject to default settings in a limitrange
-- name: Ensure {{work_dir}} exists
-  file:
-    path: "{{work_dir}}"
-    state: directory
-
+###     Limits and requests for postgresql dc are not defined and subsequently are subject to default settings in a limitrange
 - name: Delete default limitrange
   shell: |
-    oc delete limitrange {{ocp_project}}-core-resource-limits -n {{ocp_project}}
+    oc delete limitrange {{ ocp_project }}-core-resource-limits -n {{ ocp_project }}
   ignore_errors: true
 
 - name: Create a new limitrange
   template:
     src: templates/limitrange.yaml
-    dest: "{{work_dir}}/limitrange.yaml"
+    dest: "{{ work_dir }}/limitrange.yaml"
 - shell: |
-    oc create -f {{work_dir}}/limitrange.yaml -n {{ocp_project}}
+    oc create -f {{ work_dir }}/limitrange.yaml -n {{ ocp_project }}
 
 - name: Annotate the empty project as requested by user
-  shell: "oc annotate namespace {{ocp_project}} openshift.io/requester={{admin_username}} --overwrite"
+  shell: "oc annotate namespace {{ ocp_project }} openshift.io/requester={{ admin_username }} --overwrite"
 
 
 ### RH-SSO Setup
 
 - name: Create SSO Service Account
   shell: "oc create serviceaccount sso-service-account -n {{ ocp_project }}"
+  ignore_errors: true
 
 - name: Give service account access to Lab Infra project
   shell: "oc policy add-role-to-user view system:serviceaccount:{{ ocp_project }}:sso-service-account"
+
+- name: "Download {{ rhsso_template_name }}"
+  get_url:
+    url: "{{ rhsso_template_url }}"
+    dest: "{{ modified_template_path }}"
+    force: yes
+
+- name: Place all deployments in a paused state
+  replace:
+    path: "{{ modified_template_path }}"
+    regexp: '("replicas": 1,\n)'
+    replace: '\1    "paused": true,\n'
+
+- name: Delete template incase it already exists
+  shell: |
+       oc delete template {{ rhsso_template_name }} -n {{ ocp_project }}
+  ignore_errors: true
+
+- name: Create template
+  shell: |
+       oc create -f {{ modified_template_path }} -n {{ ocp_project }}
 
 - name: Create RHSSO app
   shell: |
@@ -45,18 +72,32 @@
            --template={{ rhsso_template_name }} \
            --param=SSO_ADMIN_USERNAME={{ SSO_SITE_ADMIN_USERNAME }} \
            --param=SSO_ADMIN_PASSWORD={{ SSO_SITE_ADMIN_PASSWORD }} \
+           --param=POSTGRESQL_IMAGE_STREAM_TAG={{ POSTGRESQL_IMAGE_STREAM_TAG }} \
            --param=MEMORY_LIMIT=2Gi \
            -n {{ ocp_project }} \
            > {{ work_dir }}/sso_provision.txt
 
-- pause:
-    seconds: 5
+- name: Allow for scripts enablement (to support CRW realm)
+  shell: |
+       oc set env dc/sso -n {{ ocp_project }} JAVA_OPTS_APPEND="-Dkeycloak.profile.feature.scripts=enabled -Dkeycloak.profile.feature.upload_scripts=enabled"
+
+- name: Resume postgresql
+  shell: |
+       oc rollout resume dc/sso-postgresql -n {{ ocp_project }}
+
+- include_tasks: wait_for_deploy.yml
+  vars:
+    pod_to_wait:
+      - sso-postgresql
+
+- name: Resume sso
+  shell: |
+       oc rollout resume dc/sso -n {{ ocp_project }}
 
 - include_tasks: wait_for_deploy.yml
   vars:
     pod_to_wait:
       - sso
-      - sso-mysql
 
 
 ### Project finalization
