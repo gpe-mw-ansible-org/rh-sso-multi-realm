@@ -272,10 +272,10 @@ Obviously this behavior is appropriate for demo and learning scenarios only.
 === KIE Realm
 If when creating realms the variable _loadKieRealm_ is set to true, then a special realm specific to supporting Business and Decision Manager scenarios will be created.
 
-Details of this provisioned _kie-realm_ are as follows:
+Details of this provisioned _kieRealm_ are as follows:
 
-. *realmId:*  kie-realm
-. *Login URL:* https://$rhsso_url/auth/admin/kie-realm/console
+. *realmId:*  kieRealm
+. *Login URL:* https://$rhsso_url/auth/admin/kieRealm/console
 . *Admin User Id:* admin
 . *Admin Passwd:* admin1234
 . *KIE related roles:*
