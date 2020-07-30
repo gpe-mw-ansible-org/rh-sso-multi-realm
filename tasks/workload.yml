@@ -81,6 +81,17 @@
   shell: |
        oc set env dc/sso -n {{ ocp_project }} JAVA_OPTS_APPEND="-Dkeycloak.profile.feature.scripts=enabled -Dkeycloak.profile.feature.upload_scripts=enabled"
 
+- name: Add openshift-acme annotation
+  shell: |
+       oc patch route/sso --type=json -p '[{"op": "add", "path": "/metadata/annotations/kubernetes.io~1tls-acme", "value":"true" }]' -n {{ ocp_project }}
+
+- name: Modify liveness and readiness probes for slow start-up
+  shell: |
+       oc patch dc/sso --type=json -p '[{"op": "replace", "path": "/spec/template/spec/containers/0/livenessProbe/failureThreshold", "value":20 }]' -n {{ ocp_project }}
+- shell: |
+       oc patch dc/sso --type=json -p '[{"op": "replace", "path": "/spec/template/spec/containers/0/readinessProbe/failureThreshold", "value":20 }]' -n {{ ocp_project }}
+
+
 - name: Resume postgresql
   shell: |
        oc rollout resume dc/sso-postgresql -n {{ ocp_project }}
