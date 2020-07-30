@@ -45,7 +45,7 @@ shared_ns: shared-opentlc
 
 ocp_project: "rhsso-{{ admin_username }}"
 work_dir: "/tmp/{{ ocp_project }}"
-rhsso_url: "sso-{{ ocp_project }}.{{ ocp_apps_domain }}"
+rhsso_hostname: "sso-{{ ocp_project }}.{{ ocp_apps_domain }}"
 
 rhsso_template_name: sso74-x509-postgresql-persistent
 rhsso_template_url: "https://raw.githubusercontent.com/jboss-container-images/redhat-sso-7-openshift-image/v7.4.0.GA/templates/{{ rhsso_template_name }}.json"

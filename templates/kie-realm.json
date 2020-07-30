@@ -33,9 +33,9 @@
    "failureFactor":30,
    "users":[
       {
-         "username":"admin",
+         "username":"ssoRealmAdmin",
          "enabled":true,
-         "email":"admin@openshift.opentlc.com",
+         "email":"ssoRealmAdmin@openshift.opentlc.com",
          "credentials":[
             {
                "type":"password",
@@ -43,10 +43,6 @@
             }
          ],
          "realmRoles":[
-            "admin",
-            "kie-server",
-            "kiemgmt",
-            "rest-all"
          ],
          "clientRoles":{
             "account":[
@@ -73,9 +69,9 @@
          ]
       },
       {
-         "username":"adminuser",
+         "username":"pamAdmin",
          "enabled":true,
-         "email":"adminuser@openshift.opentlc.com",
+         "email":"pamAdmin@openshift.opentlc.com",
          "credentials":[
             {
                "type":"password",
@@ -194,30 +190,6 @@
          },
          "groups":[
 
-         ]
-      },
-      {
-         "username":"Super",
-         "enabled":true,
-         "email":"super@openshift.opentlc.com",
-         "credentials":[
-            {
-               "type":"password",
-               "value":"Password1!"
-            }
-         ],
-         "realmRoles":[
-            "Administrators",
-            "admin",
-            "kie-server"
-         ],
-         "clientRoles":{
-            "account":[
-               "view-profile",
-               "manage-account"
-            ]
-         },
-         "groups":[
          ]
       },
       {
@@ -347,6 +319,7 @@
          ],
          "realmRoles":[
             "interviewer",
+            "agent",
             "kie-server"
          ],
          "clientRoles":{
@@ -370,6 +343,7 @@
          ],
          "realmRoles":[
             "interviewer",
+            "agent",
             "kie-server"
          ],
          "clientRoles":{
@@ -382,9 +356,9 @@
          ]
       },
       {
-         "username":"developer",
+         "username":"pamDeveloper",
          "enabled":true,
-         "email":"developer@openshift.opentlc.com",
+         "email":"pamDeveloper@openshift.opentlc.com",
          "credentials":[
             {
                "type":"password",
@@ -392,11 +366,9 @@
             }
          ],
          "realmRoles":[
-            "admin",
             "kie-server",
-            "kiemgmt",
             "rest-all",
-            "user"
+            "developer",
          ],
          "clientRoles":{
             "account":[

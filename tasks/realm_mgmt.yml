@@ -1,13 +1,13 @@
 ---
 
 - set_fact:
-    retrieve_token_url: "https://{{rhsso_url}}/auth/realms/master/protocol/openid-connect/token"
+    retrieve_token_url: "https://{{rhsso_hostname}}/auth/realms/master/protocol/openid-connect/token"
 - set_fact:
-    create_realm_url: "https://{{rhsso_url}}/auth/admin/realms"
+    create_realm_url: "https://{{rhsso_hostname}}/auth/admin/realms"
 - set_fact:
-    delete_realm_sub_url: "https://{{rhsso_url}}/auth/admin/realms"
+    delete_realm_sub_url: "https://{{rhsso_hostname}}/auth/admin/realms"
 - set_fact:
-    create_user_url: "https://{{rhsso_url}}/auth/admin/realms"
+    create_user_url: "https://{{rhsso_hostname}}/auth/admin/realms"
 - set_fact:
     ocp_master_url: "https://master.{{subdomain_base}}:443"
 
