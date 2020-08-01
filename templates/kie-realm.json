@@ -204,7 +204,8 @@
          ],
          "realmRoles":[
             "applicant",
-            "kie-server"
+            "kie-server",
+            "user"
          ],
          "clientRoles":{
             "account":[
@@ -227,7 +228,8 @@
          ],
          "realmRoles":[
             "applicant",
-            "kie-server"
+            "kie-server",
+            "user"
          ],
          "clientRoles":{
             "account":[
@@ -250,7 +252,8 @@
          ],
          "realmRoles":[
             "talent-acquisition",
-            "kie-server"
+            "kie-server",
+            "user"
          ],
          "clientRoles":{
             "account":[
@@ -273,7 +276,8 @@
          ],
          "realmRoles":[
             "talent-acquisition",
-            "kie-server"
+            "kie-server",
+            "user"
          ],
          "clientRoles":{
             "account":[
@@ -296,7 +300,8 @@
          ],
          "realmRoles":[
             "interviewer",
-            "kie-server"
+            "kie-server",
+            "user"
          ],
          "clientRoles":{
             "account":[
@@ -320,7 +325,8 @@
          "realmRoles":[
             "interviewer",
             "agent",
-            "kie-server"
+            "kie-server",
+            "user"
          ],
          "clientRoles":{
             "account":[
@@ -344,7 +350,8 @@
          "realmRoles":[
             "interviewer",
             "agent",
-            "kie-server"
+            "kie-server",
+            "user"
          ],
          "clientRoles":{
             "account":[
