@@ -52,7 +52,7 @@
       set_fact:
         realmId: "{{ crw_realm_id }}"
     - template:
-        src: templates/crw-realm.json
+        src: templates/crwRealm.json
         dest: "{{ new_app_output_dir }}/{{ crw_realm_id }}.json"
         mode: 0755
     - set_fact:

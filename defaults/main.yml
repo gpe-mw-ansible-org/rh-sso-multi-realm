@@ -84,7 +84,7 @@ loadKieRealm: false
 
 # CRW Realm
 loadCRWRealm: false
-crw_realm_id: crw-realm
+crw_realm_id: crwRealm
 
 # OCP Realm
 loadOCPRealm: false

@@ -287,10 +287,10 @@ Details of this provisioned _kieRealm_ are as follows:
 === CRW Realm
 If when creating realms the variable _loadCRWRealm_ is set to true, then a special realm specific to supporting Code Ready Workspaces will be created.
 
-Details of this provisioned _crw-realm_
+Details of this provisioned _crwRealm_
 
-. *realmId:*  crw-realm
-. *Login URL:* https://$rhsso_hostname/auth/admin/crw-realm/console
+. *realmId:*  crwRealm
+. *Login URL:* https://$rhsso_hostname/auth/admin/crwRealm/console
 . *Admin User Id:* admin
 . *Admin Passwd:* admin1234
 
