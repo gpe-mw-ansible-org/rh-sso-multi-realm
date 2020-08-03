@@ -292,7 +292,7 @@ Details of this provisioned _crwRealm_
 . *realmId:*  crwRealm
 . *Login URL:* https://$rhsso_hostname/auth/admin/crwRealm/console
 . *Admin User Id:* admin
-. *Admin Passwd:* admin1234
+. *Admin Passwd:* admin
 
 === OpenShift Realm
 
