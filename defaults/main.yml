@@ -85,6 +85,7 @@ loadKieRealm: false
 # CRW Realm
 loadCRWRealm: false
 crw_realm_id: crwRealm
+crw_redirect_url: https://codeready-user1-er-dev.apps.ratwater.xyz
 
 # OCP Realm
 loadOCPRealm: false

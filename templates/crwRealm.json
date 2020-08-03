@@ -396,10 +396,10 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "https://codeready-user1-er-dev.apps.ratwater.xyz/*",
+        "{{ crw_redirect_url }}/*",
       ],
       "webOrigins": [
-        "https://codeready-user1-er-dev.apps.ratwater.xyz"
+        "{{ crw_redirect_url }}"
       ],
       "notBefore": 0,
       "bearerOnly": false,

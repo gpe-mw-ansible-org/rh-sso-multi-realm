@@ -338,6 +338,8 @@ loadKieRealm=false          # default is false. If true, then will initialize a 
 
 loadCRWRealm=false          # default is false. If true, then a realm will be initialized to support Red Hat Code Ready Workspaces
 
+crw_redirect_url=""         # Only applicable if loadCRWRealm=true.  Set to URL of CodeReadyWorkspace route.
+
 loadOCPRealm=true           # default is false. If true, then will configure a realm called ocp-realm that can be used to configure OCP to leverage RH-SSO for authentication
 end_ocp_user=1              # last user to be created in ocp-realm will be:  user$end_ocp_user
 
@@ -356,6 +358,7 @@ $ ansible-playbook -i localhost, -c local /tmp/rh_sso_multi_realm.yml \
                     -e"realm_base_name=$realm_base_name" \
                     -e"loadKieRealm=$loadKieRealm" \
                     -e"loadCRWRealm=$loadCRWRealm" \
+                    -e"crw_redirect_url=$crw_redirect_url" \
                     -e"loadOCPRealm=$loadOCPRealm" \
                     -e"end_ocp_user=$end_ocp_user" \
                     -e"rhsso_hostname=$rhsso_hostname"
