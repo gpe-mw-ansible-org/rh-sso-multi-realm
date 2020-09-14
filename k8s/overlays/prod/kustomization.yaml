@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+- ../../base
+
+patches:
+- path: sso_project_patch.json
+  target:
+    group: project.openshift.io
+    version: v1
+    kind: Project
+    name: user-sso
+
+- path: sso_operatorgroup_patch.json
+  target:
+    group: operators.coreos.com
+    version: v1
+    kind: OperatorGroup
+    name: sso-operator

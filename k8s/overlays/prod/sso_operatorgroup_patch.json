@@ -1,0 +1,6 @@
+[
+ {"op": "replace",
+   "path": "/spec/targetNamespaces/0",
+   "value": "user2-sso"
+ }
+]

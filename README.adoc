@@ -863,3 +863,13 @@ cd /opt/eap/bin/
 -----
 ./jboss-cli.sh --connect ':reload'
 -----
+
+== Kustomize / ArgoCD
+
+-----
+$ kustomize build k8s/base
+$ oc apply -k k8s/base
+
+$ kustomize build k8s/overlays/prod
+$ oc apply -k k8s/overlays/prod
+-----
