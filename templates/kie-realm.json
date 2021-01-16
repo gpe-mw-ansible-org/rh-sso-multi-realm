@@ -43,6 +43,7 @@
             }
          ],
          "realmRoles":[
+            "admin"
          ],
          "clientRoles":{
             "account":[
