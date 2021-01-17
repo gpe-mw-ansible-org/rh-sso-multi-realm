@@ -376,7 +376,7 @@
          "realmRoles":[
             "kie-server",
             "rest-all",
-            "developer",
+            "developer"
          ],
          "clientRoles":{
             "account":[

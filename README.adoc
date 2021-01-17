@@ -272,17 +272,24 @@ Obviously this behavior is appropriate for demo and learning scenarios only.
 === KIE Realm
 If when creating realms the variable _loadKieRealm_ is set to true, then a special realm specific to supporting Business and Decision Manager scenarios will be created.
 
-Details of this provisioned _kieRealm_ are as follows:
+. Details of this provisioned _kieRealm_ are as follows:
 
-. *realmId:*  kieRealm
-. *Login URL:* https://$rhsso_hostname/auth/admin/kieRealm/console
-. *Admin User Id:* ssoRealmAdmin
-. *Admin Passwd:* admin1234
-. *KIE related roles:*
-.. admin
-.. kie-server
-.. kiemgmt
-.. rest-all
+.. *realmId:*  kieRealm
+.. *Login URL:* https://$rhsso_hostname/auth/admin/kieRealm/console
+.. *Realm Admin User Id:* ssoRealmAdmin
+.. *Realm Admin Passwd:* pam
+.. *KIE related roles:*
+... admin
+... kie-server
+... kiemgmt
+... rest-all
+
+. Details of all users registered with this realm can be identified as follows:
++
+-----
+$ cat templates/kie-realm.json | jq .users
+-----
+
 
 === CRW Realm
 If when creating realms the variable _loadCRWRealm_ is set to true, then a special realm specific to supporting Code Ready Workspaces will be created.
