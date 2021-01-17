@@ -39,7 +39,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"admin1234"
+               "value":"pam"
             }
          ],
          "realmRoles":[
@@ -76,7 +76,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"admin1!"
+               "value":"pam"
             }
          ],
          "realmRoles":[
@@ -104,7 +104,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"controller1!"
+               "value":"pam"
             }
          ],
          "realmRoles":[
@@ -131,7 +131,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"r3dh4t1!"
+               "value":"pam"
             }
          ],
          "realmRoles":[
@@ -154,7 +154,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"r3dh4t1!"
+               "value":"pam"
             }
          ],
          "realmRoles":[
@@ -177,7 +177,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"r3dh4t1!"
+               "value":"pam"
             }
          ],
          "realmRoles":[
@@ -200,7 +200,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"Password1!"
+               "value":"pam"
             }
          ],
          "realmRoles":[
@@ -224,7 +224,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"Password1!"
+               "value":"pam"
             }
          ],
          "realmRoles":[
@@ -248,7 +248,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"Password1!"
+               "value":"pam"
             }
          ],
          "realmRoles":[
@@ -272,7 +272,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"Password1!"
+               "value":"pam"
             }
          ],
          "realmRoles":[
@@ -296,7 +296,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"Password1!"
+               "value":"pam"
             }
          ],
          "realmRoles":[
@@ -320,7 +320,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"Password1!"
+               "value":"pam"
             }
          ],
          "realmRoles":[
@@ -345,7 +345,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"Password1!"
+               "value":"pam"
             }
          ],
          "realmRoles":[
@@ -370,7 +370,7 @@
          "credentials":[
             {
                "type":"password",
-               "value":"r3dh4t1!"
+               "value":"pam"
             }
          ],
          "realmRoles":[
